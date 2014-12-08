@@ -536,6 +536,8 @@ void UMLApp::initActions()
     viewProperties->setText(i18n("&Properties"));
     connect(viewProperties, SIGNAL(triggered(bool)), this, SLOT(slotCurrentProperties()));
 
+    m_d->createActions();
+
     viewSnapToGrid->setChecked(false);
     viewShowGrid->setChecked(false);
 
@@ -975,6 +977,8 @@ void UMLApp::initView()
     addDockWidget(Qt::RightDockWidgetArea, m_birdViewDock);
     connect(m_birdViewDock, SIGNAL(visibilityChanged(bool)), viewShowBirdView, SLOT(setChecked(bool)));
 #endif
+
+    m_d->createDockWindows();
 
     tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
     tabifyDockWidget(m_cmdHistoryDock, m_logDock);

@@ -443,6 +443,7 @@ set(umbrellobase_SRCS
     layoutgenerator.cpp
     listpopupmenu.cpp
     model_utils.cpp
+    stereotypeswindow.cpp
     object_factory.cpp
     optionstate.cpp
     petalnode.cpp
