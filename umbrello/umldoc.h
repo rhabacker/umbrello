@@ -239,6 +239,9 @@ public:
 private:
     void initSaveTimer();
     void createDatatypeFolder();
+    void removeDatatypeFolder();
+    void removeFolders();
+    void createFolders();
 
     /**
      * Array of predefined root folders.
