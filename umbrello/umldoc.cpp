@@ -440,6 +440,8 @@ void UMLDoc::closeDocument()
                     m_stereotypesModel->removeStereotype(s);
                     delete s;
                 }
+                else
+                    qDebug() << s->name() << s->refCount();
             }
         }
     }
