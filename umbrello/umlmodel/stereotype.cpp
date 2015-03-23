@@ -15,6 +15,7 @@
 #include "debug_utils.h"
 #include "umldoc.h"
 #include "uml.h"
+#include "stereotypesmodel.h"
 
 // kde includes
 #if QT_VERSION < 0x050000
@@ -135,6 +136,7 @@ bool UMLStereotype::showPropertiesDialog(QWidget* parent)
 void UMLStereotype::incrRefCount()
 {
     m_refCount++;
+    UMLApp::app()->document()->stereotypesModel()->emitDataChanged(this);
 }
 
 /**
@@ -143,6 +145,7 @@ void UMLStereotype::incrRefCount()
 void UMLStereotype::decrRefCount()
 {
     m_refCount--;
+    UMLApp::app()->document()->stereotypesModel()->emitDataChanged(this);
 }
 
 /**
