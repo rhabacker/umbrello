@@ -99,8 +99,8 @@ UMLObject::UMLObject(UMLObject * parent)
  */
 UMLObject::~UMLObject()
 {
-    if (m_pStereotype)
-        m_pStereotype->decrRefCount();
+    // unref stereotype
+    setUMLStereotype(0);
 }
 
 /**
