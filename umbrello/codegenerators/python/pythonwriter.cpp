@@ -325,14 +325,26 @@ void PythonWriter::writeAttributes(UMLAttributeList atList, QTextStream &py)
 {
     if (!forceDoc() || atList.count() == 0)
         return;
-    py << m_indentation << "\"\"\" ATTRIBUTES" << m_endl << m_endl;
     foreach (UMLAttribute *at, atList) {
-        py << formatDoc(at->doc(), m_indentation + QLatin1Char(' ')) << m_endl;
-        Uml::Visibility::Enum vis = at->visibility();
-        py << m_indentation << cleanName(at->name()) << "  ("
-            << Uml::Visibility::toString(vis) << ")" << m_endl << m_endl ;
+        QString sAccess = accessString(at->visibility());
+        if (!at->doc().isEmpty()) {
+            py << m_indentation << "\"\"\""
+               << formatDoc(at->doc(), m_indentation + QLatin1Char(' ')).trimmed() << m_endl
+               << m_indentation << "\"\"\"" << m_endl;
+        }
+        QString initialValue;
+        if (at->getTypeName() == QLatin1String("list"))
+            initialValue = QLatin1String("[]");
+        else if (at->getTypeName() == QLatin1String("dict"))
+            initialValue = QLatin1String("{}");
+        else
+            initialValue = at->getInitialValue().isEmpty() ? QLatin1String("0") : at->getInitialValue();
+
+        py << m_indentation << sAccess + cleanName(at->name())
+           << QLatin1String("=")
+           << initialValue << m_endl << m_endl;
     } // end for
-    py << m_indentation << "\"\"\"" << m_endl << m_endl;
+    py << m_endl << m_endl;
 }
 
 /**
