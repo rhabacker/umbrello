@@ -165,6 +165,28 @@ static const char *reserved_words[] = {
     0
 };
 
+static QString accessString(Uml::Visibility::Enum access)
+{
+    QString sAccess;
+
+    switch (access)
+    {
+    case Uml::Visibility::Public:
+        sAccess = QString();
+        break;
+    case Uml::Visibility::Private:
+        sAccess = QLatin1String("__");
+        break;
+    case Uml::Visibility::Protected:
+        sAccess = QLatin1String("_");
+        break;
+    default:
+        break;
+    }
+    return sAccess;
+}
+
+
 PythonWriter::PythonWriter() : m_bNeedPass(true)
 {
 }
@@ -266,7 +288,7 @@ void PythonWriter::writeClass(UMLClassifier *c)
 
     if (forceDoc() || !c->doc().isEmpty()) {
         h << m_indentation << "\"\"\"" << m_endl;
-        h << formatDoc(c->doc(), m_indentation + QLatin1Char(' ')) << m_endl;
+        h << formatDoc(c->doc(), m_indentation + QLatin1Char(' ')).trimmed() << m_endl;
         h << m_indentation << ":version:" << m_endl;
         h << m_indentation << ":author:" << m_endl;
         h << m_indentation << "\"\"\"" << m_endl << m_endl;
@@ -369,22 +391,7 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
                                    QTextStream &h, Uml::Visibility::Enum access)
 {
     Q_UNUSED(classname);
-    QString sAccess;
-
-    switch (access)
-    {
-    case Uml::Visibility::Public:
-        sAccess = QString();
-        break;
-    case Uml::Visibility::Private:
-        sAccess = QLatin1String("__");
-        break;
-    case Uml::Visibility::Protected:
-        sAccess = QLatin1String("_");
-        break;
-    default:
-        break;
-    }
+    QString sAccess = accessString(access);
 
     foreach (UMLOperation* op,  opList) {
         UMLAttributeList atl = op->getParmList();
@@ -408,7 +415,9 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
         if (writeDoc)  //write method documentation
         {
             h << m_indentation << m_indentation << "\"\"\"" << m_endl;
-            h << formatDoc(op->doc(), m_indentation + m_indentation + QLatin1Char(' ')) << m_endl;
+            if (!op->doc().isEmpty()) {
+                h << formatDoc(op->doc(), m_indentation + m_indentation + QLatin1Char(' ')).trimmed() << m_endl;
+            }
 
             foreach (UMLAttribute* at, atl)  //write parameter documentation
             {
@@ -424,10 +433,10 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
         }
         QString sourceCode = op->getSourceCode();
         if (sourceCode.isEmpty()) {
-            h << m_indentation << m_indentation << "pass" << m_endl << m_endl;
+            h << m_indentation << m_indentation << "pass" << m_endl;
         }
         else {
-            h << formatSourceCode(sourceCode, m_indentation + m_indentation) << m_endl << m_endl;
+            h << formatSourceCode(sourceCode, m_indentation + m_indentation) << m_endl;
         }
         m_bNeedPass = false;
     }//end for
@@ -453,6 +462,7 @@ QStringList PythonWriter::defaultDatatypes()
     l.append(QLatin1String("tuple"));
     l.append(QLatin1String("float"));
     l.append(QLatin1String("int"));
+    l.append(QLatin1String("list"));
     l.append(QLatin1String("long"));
     l.append(QLatin1String("dict"));
     l.append(QLatin1String("object"));
