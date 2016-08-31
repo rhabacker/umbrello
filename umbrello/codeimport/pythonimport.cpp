@@ -254,7 +254,15 @@ bool PythonImport::parseStmt()
             m_comment = QString();
         }
 
-        const QString& name = advance();
+        QString name = advance();
+        Uml::Visibility::Enum visibility = Uml::Visibility::Public;
+        if (name.startsWith(QLatin1String("__"))) {
+            visibility = Uml::Visibility::Private;
+            name.remove(0, 2);
+        } else if (name.startsWith(QLatin1String("_"))) {
+            visibility = Uml::Visibility::Protected;
+            name.remove(0, 1);
+        }
         // operation
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
         if (advance() != QLatin1String("(")) {
@@ -277,7 +285,7 @@ bool PythonImport::parseStmt()
             if (advance() != QLatin1String(","))
                 break;
         }
-        Import_Utils::insertMethod(m_klass, op, Uml::Visibility::Public, QLatin1String("string"),
+        Import_Utils::insertMethod(m_klass, op, visibility, QLatin1String("string"),
                                    m_isStatic, false /*isAbstract*/, false /*isFriend*/,
                                    false /*isConstructor*/, m_comment);
         m_isStatic = false;
@@ -291,6 +299,50 @@ bool PythonImport::parseStmt()
 
         return true;
     }
+
+    if (lookAhead() == QLatin1String("=")) {
+        QString variable = keyword;
+        advance();
+        QString value = advance();
+        Uml::Visibility::Enum visibility = Uml::Visibility::Public;
+        if (variable.startsWith(QLatin1String("__"))) {
+            visibility = Uml::Visibility::Private;
+            variable.remove(0, 2);
+        } else if (variable.startsWith(QLatin1String("_"))) {
+            visibility = Uml::Visibility::Protected;
+            variable.remove(0, 1);
+        }
+        QString type;
+        if (value == QLatin1String("[")) {
+            if (lookAhead() == QLatin1String("]")) {
+                advance();
+                type = QLatin1String("list");
+                value = QLatin1String("");
+            }
+        } else if (value == QLatin1String("{")) {
+            if (lookAhead() == QLatin1String("}")) {
+                advance();
+                type = QLatin1String("dict");
+                value = QLatin1String("");
+            }
+        } else if (value.startsWith(QLatin1String("\""))) {
+            type = QLatin1String("string");
+        } else if (value.contains(QLatin1String("."))) {
+            type = QLatin1String("float");
+        } else if (value == QLatin1String("True") || value == QLatin1String("False")) {
+            type = QLatin1String("bool");
+        } else if (!value.isEmpty()) {
+            type = QLatin1String("int");
+        }
+
+        UMLObject* o = Import_Utils::insertAttribute(m_klass, visibility, variable,
+                                                     type, m_comment, false);
+        UMLAttribute* a = dynamic_cast<UMLAttribute*>(o);
+        a->setInitialValue(value);
+        log(QLatin1String("attribute ") + variable);
+        return true;
+    }
+
     if (keyword == QLatin1String("}")) {
         if (scopeIndex()) {
             m_klass = dynamic_cast<UMLClassifier*>(popScope());

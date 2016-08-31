@@ -178,6 +178,13 @@ int NativeImportBase::scopeIndex()
     return m_scope.size() - 1;
 }
 
+QString NativeImportBase::lookAhead()
+{
+    if (m_srcIndex < m_source.count() - 1)
+        return m_source[m_srcIndex+1];
+    return QString();
+}
+
 /**
  * Advance m_srcIndex until m_source[m_srcIndex] contains a non-comment.
  * Comments encountered during advancement are accumulated in `m_comment'.
