@@ -1317,6 +1317,13 @@ void MessageWidget::setyclicked(int yclick)
     m_yclicked = yclick;
 }
 
+void MessageWidget::setFont(const QFont &font)
+{
+    UMLWidget::setFont(font);
+    if (m_pFText)
+        m_pFText->setFont(font);
+}
+
 /**
  * Event handler for mouse double click events.
  * @param event QGraphicsSceneMouseEvent which triggered the double click event

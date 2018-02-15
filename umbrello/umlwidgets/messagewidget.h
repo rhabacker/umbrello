@@ -148,6 +148,8 @@ public:
         return m_xclicked;
     }
 
+    void setFont(const QFont &font);
+
 protected:
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 

@@ -515,9 +515,10 @@ void ListPopupMenu::insertSingleSelectionMenu(WidgetBase* object)
     case WidgetBase::wt_Message:
         insertSubMenuColor(object->useFillColor());
         insertStdItems(false, type);
-        //insert(mt_Change_Font);
+        insert(mt_Change_Font);
         //insert(mt_Operation, Icon_Utils::SmallIcon(Icon_Utils::it_Operation_New), i18n("New Operation..."));
         //insert(mt_Select_Operation, i18n("Select Operation..."));
+        insert(mt_Properties);
         break;
 
     case WidgetBase::wt_Note:
