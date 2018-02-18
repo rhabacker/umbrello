@@ -45,32 +45,25 @@ public:
 
     void setText(const QString& text);
 
-    void setY(qreal y);
-    void setYMin(qreal yMin);
-    void setYMax(qreal yMax);
-    qreal getYMin() const;
-    qreal getDiffY() const;
-
     void saveToXMI1(QDomDocument & qDoc, QDomElement & qElement);
     bool loadFromXMI1(QDomElement & qElement);
+    void setY(qreal y);
+    void setVerticalMargins(qreal top, qreal bottom);
 
-private:
+protected:
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+
     /**
      * Text associated to the dash line
      */
     QString m_text;
 
     /**
-     * Minimum value of the Y-coordinate of the dash line
-     * (= y-coordinate of the combined fragment)
+     * vertical margins
      */
-    int m_yMin;
+    qreal m_marginTop;
+    qreal m_marginBottom;
 
-    /**
-     * Maximum value of the Y-coordinate of the dash line
-     * (= y-coordinate of the combined fragment + height of the combined fragment)
-     */
-    int m_yMax;
     CombinedFragmentWidget *m_parent;
 };
 

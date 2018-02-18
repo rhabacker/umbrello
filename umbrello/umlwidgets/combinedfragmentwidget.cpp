@@ -71,7 +71,6 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
     int w = width();
     int h = height();
     int line_width = initialLabelWidth;
-    int old_Y;
 
     setPenFromSettings(painter);
 
@@ -135,48 +134,17 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
         case Alt :
                 if (combined_fragment_value != QLatin1String("-"))
                 {
-                     temp = QLatin1Char('[') + combined_fragment_value + QLatin1Char(']');
-            painter->drawText(defaultMargin, labelHeight,
+                    temp = QLatin1Char('[') + combined_fragment_value + QLatin1Char(']');
+                    painter->drawText(defaultMargin, labelHeight,
                               w - defaultMargin * 2, fontHeight, Qt::AlignLeft, temp);
-                    if (m_dashLines.size() == 1 && m_dashLines.first()->y() < y() + labelHeight + fontHeight)
-                        m_dashLines.first()->setY(y() + h/2);
                 }
                 painter->drawText(defaultMargin, 0,
-            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("alt"));
-                // dash lines
-                //m_dashLines.first()->paint(painter);
-                // TODO: move to UMLWidget::calculateSize api
-                for (QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
-                    (*it)->setX(x());
-                    old_Y = (*it)->getYMin();
-                    (*it)->setYMin(y());
-                    (*it)->setYMax(y() + height());
-                    (*it)->setY(y() + (*it)->y() - old_Y);
-                    (*it)->setSize(w, (*it)->height());
-                    (*it)->setLineColor(lineColor());
-                    (*it)->setLineWidth(lineWidth());
-                }
-
+                    w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("alt"));
         break;
 
         case Par :
                 painter->drawText(defaultMargin, 0,
-            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("parallel"));
-                // dash lines
-                if (m_dashLines.size() != 0) {
-                    //m_dashLines.first()->paint(painter);
-                    // TODO: move to UMLWidget::calculateSize api
-                    for (QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
-                        (*it)->setX(x());
-                        old_Y = (*it)->getYMin();
-                        (*it)->setYMin(y());
-                        (*it)->setYMax(y() + height());
-                        (*it)->setY(y() + (*it)->y() - old_Y);
-                        (*it)->setSize(w, (*it)->height());
-                        (*it)->setLineColor(lineColor());
-                        (*it)->setLineWidth(lineWidth());
-                    }
-                }
+                    w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("parallel"));
         break;
 
     default : break;
@@ -231,8 +199,12 @@ void CombinedFragmentWidget::setCombinedFragmentType(CombinedFragmentType combin
     // creates a dash line if the combined fragment type is alternative or parallel
     if (m_CombinedFragment == Alt && m_dashLines.isEmpty())
     {
-        m_dashLines.push_back(new FloatingDashLineWidget(m_scene, Uml::ID::None, this));
-        m_scene->addWidgetCmd(m_dashLines.back());
+        FloatingDashLineWidget *lw = new FloatingDashLineWidget(m_scene, Uml::ID::None, this);
+        lw->setParentItem(this);
+        lw->setVerticalMargins(labelHeight * 2, 0);
+        lw->setY(y() + height()/2);
+
+        m_dashLines.push_back(lw);
     }
 }
 
@@ -357,6 +329,9 @@ bool CombinedFragmentWidget::loadFromXMI1(QDomElement & qElement)
         QString tag = element.tagName();
         if (tag == QLatin1String("floatingdashlinewidget")) {
             FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(m_scene, Uml::ID::None, this);
+            fdlwidget->setParentItem(this);
+            fdlwidget->setVerticalMargins(labelHeight * 2, 0);
+
             m_dashLines.push_back(fdlwidget);
             if (!fdlwidget->loadFromXMI1(element)) {
               // Most likely cause: The FloatingTextWidget is empty.
@@ -364,7 +339,6 @@ bool CombinedFragmentWidget::loadFromXMI1(QDomElement & qElement)
                 return false;
             }
             else {
-                m_scene->addWidgetCmd(fdlwidget);
                 fdlwidget->clipSize();
             }
         } else {
@@ -412,18 +386,18 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
     switch (sel) {
           // for alternative or parallel combined fragments
     case ListPopupMenu::mt_AddInteractionOperand:
-        m_dashLines.push_back(new FloatingDashLineWidget(m_scene, Uml::ID::None, this));
-        if (m_CombinedFragment == Alt)
         {
-            m_dashLines.back()->setText(QLatin1String("else"));
+            FloatingDashLineWidget *lw = new FloatingDashLineWidget(m_scene, Uml::ID::None, this);
+            lw->setParentItem(this);
+            lw->setVerticalMargins(labelHeight*2, 0);
+            lw->setY(y() + height()/2);
+            if (m_CombinedFragment == Alt)
+            {
+                lw->setText(QLatin1String("else"));
+            }
+            m_scene->setupNewWidget(lw);
+            m_dashLines.push_back(lw);
         }
-        // TODO: move to UMLWidget::calculateSize api
-        m_dashLines.back()->setX(x());
-        m_dashLines.back()->setYMin(y());
-        m_dashLines.back()->setYMax(y() + height());
-        m_dashLines.back()->setY(y() + height() / 2);
-        m_dashLines.back()->setSize(width(), m_dashLines.back()->height());
-        m_scene->setupNewWidget(m_dashLines.back());
         break;
 
     case ListPopupMenu::mt_Rename:
@@ -476,11 +450,6 @@ void CombinedFragmentWidget::setDashLineGeometryAndPosition() const
     if (m_CombinedFragment == Alt && !m_dashLines.isEmpty())
     {
         m_dashLines.back()->setText(QLatin1String("else"));
-        m_dashLines.back()->setX(x());
-        m_dashLines.back()->setYMin(y());
-        m_dashLines.back()->setYMax(y() + height());
-        m_dashLines.back()->setY(y() + height() / 2);
-        m_dashLines.back()->setSize(width(), m_dashLines.back()->height());
     }
 }
 

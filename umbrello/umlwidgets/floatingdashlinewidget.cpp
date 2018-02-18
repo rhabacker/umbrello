@@ -18,6 +18,7 @@
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "umlview.h"
+#include "umlscene.h"
 #include "widget_utils.h"
 #include "listpopupmenu.h"
 
@@ -34,10 +35,9 @@ DEBUG_REGISTER_DISABLED(FloatingDashLineWidget)
  */
 FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::ID::Type id, CombinedFragmentWidget *parent)
   : UMLWidget(scene, WidgetBase::wt_FloatingDashLine, id),
-    m_yMin(0),
-    m_yMax(0),
     m_parent(parent)
 {
+    //scene->addItem(this);
     m_resizable = false;
     m_Text = QString();
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -120,40 +120,13 @@ void FloatingDashLineWidget::slotMenuSelection(QAction* action)
  */
 void FloatingDashLineWidget::setY(qreal y)
 {
-    if(y >= m_yMin + FLOATING_DASH_LINE_MARGIN && y <= m_yMax - FLOATING_DASH_LINE_MARGIN)
-        UMLWidget::setY(y);
-}
-
-/**
- * Sets m_yMin.
- */
-void FloatingDashLineWidget::setYMin(qreal yMin)
-{
-    m_yMin = yMin;
-}
-
-/**
- * Sets m_yMax.
- */
-void FloatingDashLineWidget::setYMax(qreal yMax)
-{
-    m_yMax = yMax;
-}
-
-/**
- * Returns m_yMin.
- */
-qreal FloatingDashLineWidget::getYMin() const
-{
-    return m_yMin;
-}
-
-/**
- * Returns the difference between the y-coordinate of the dash line and m_yMin.
- */
-qreal FloatingDashLineWidget::getDiffY() const
-{
-    return (y() - getYMin());
+    qreal _y = mapFromScene(QPointF(y,0)).y();
+    if (_y < m_marginTop)
+        UMLWidget::setY(m_marginTop);
+    else if (_y > m_parent->height() - m_marginBottom - height())
+        UMLWidget::setY(m_parent->height() - m_marginBottom - height());
+    else
+        UMLWidget::setY(_y);
 }
 
 /**
@@ -164,8 +137,6 @@ void FloatingDashLineWidget::saveToXMI1(QDomDocument & qDoc, QDomElement & qElem
     QDomElement textElement = qDoc.createElement(QLatin1String("floatingdashlinewidget"));
     UMLWidget::saveToXMI1(qDoc, textElement);
     textElement.setAttribute(QLatin1String("text"), m_Text);
-    textElement.setAttribute(QLatin1String("minY"), m_yMin);
-    textElement.setAttribute(QLatin1String("maxY"), m_yMax);
 
     qElement.appendChild(textElement);
 }
@@ -179,9 +150,18 @@ bool FloatingDashLineWidget::loadFromXMI1(QDomElement & qElement)
         return false;
     }
     DEBUG(DBG_SRC) << "load.......";
-    m_yMax = qElement.attribute(QLatin1String("maxY")).toInt();
-    m_yMin = qElement.attribute(QLatin1String("minY")).toInt();
     m_Text = qElement.attribute(QLatin1String("text"));
     return true;
 }
 
+void FloatingDashLineWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    QPointF p = event->scenePos();
+    setY(p.y());
+}
+
+void FloatingDashLineWidget::setVerticalMargins(qreal top, qreal bottom)
+{
+    m_marginTop = top;
+    m_marginBottom = bottom;
+}
