@@ -930,6 +930,28 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
                 uError() << "could not upload file" << tmpfile.fileName() << "to" << url;
         }
         else {
+            if (Settings::optionState().generalState.makeBackup) {
+                // now make a backup of the original file
+                QFileInfo info(url.toLocalFile());
+                QDateTime currentTime = QDateTime::currentDateTime();
+                QString backupFileName = QString(QLatin1String("%1/%2-%3.%4")).arg(info.path(), info.baseName(), currentTime.toString(Settings::optionState().generalState.backupDatePattern), info.completeSuffix());
+    #if QT_VERSION >= 0x050000
+                KIO::FileCopyJob* fcjb = KIO::file_copy(url, QUrl::fromLocalFile(backupFileName), -1, KIO::Overwrite);
+    #else
+                KIO::FileCopyJob* fcjb = KIO::file_copy(url, QUrl::fromLocalFile(backupFileName), -1, KIO::Overwrite);
+    #endif
+    #if QT_VERSION >= 0x050000
+                KJobWidgets::setWindow(fcjb, (QWidget*)UMLApp::app());
+                fcjb->exec();
+                if (fcjb->error()) {
+                    uError() << "Could not copy" << url << "to" << backupUrl;
+                    KMessageBox::error(0, i18n("There was a problem saving: %1", backupFileName), i18n("Save Error"));
+    #else
+                if (KIO::NetAccess::synchronousRun(fcjb, (QWidget*)UMLApp::app()) == false) {
+                    KMessageBox::error(0, i18n("There was a problem saving file: %1", backupFileName), i18n("Save Error"));
+    #endif
+                }
+            }
             // now remove the original file
 #ifdef Q_OS_WIN
             tmpfile.setAutoRemove(true);

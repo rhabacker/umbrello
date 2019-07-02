@@ -42,6 +42,7 @@ public:
         autosave(false),
         time(0),
         autosavetime(0),
+        makeBackup(false),
         loadlast(false),
         diagram(Uml::DiagramType::Class),
         defaultLanguage(Uml::ProgrammingLanguage::Cpp),
@@ -62,6 +63,8 @@ public:
     int time;        ///< old autosave time, kept for compatibility
     int autosavetime;
     QString autosavesuffix;  ///< Text input field for suffix of autosave
+    bool makeBackup;
+    QString backupDatePattern;
     bool loadlast;
     Uml::DiagramType::Enum diagram;
     Uml::ProgrammingLanguage::Enum defaultLanguage;

@@ -69,6 +69,8 @@ protected:
         
         QCheckBox * autosaveCB;
         QCheckBox * loadlastCB;
+        QCheckBox * makeBackupCB;
+        KLineEdit * backupPatternT;
 
         // Allow definition of Suffix for autosave
         // (Default: ".xmi"), private Ui::GeneralOptionPage

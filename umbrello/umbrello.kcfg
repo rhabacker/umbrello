@@ -80,6 +80,16 @@
          <whatsthis>The Suffix for the auto save file</whatsthis>
          <default>.xmi</default>
        </entry>
+       <entry name="makebackup" type="Bool">
+         <label>Make file backup</label>
+         <whatsthis>Enable/disable creation of backup file before saving</whatsthis>
+         <default>false</default>
+       </entry>
+       <entry name="backupdatepattern" type="String">
+         <label>Date related pattern for backup file name</label>
+         <whatsthis>The date related pattern used to create the backup file</whatsthis>
+         <default>yyyyMMdd-HHmmss</default>
+       </entry>
        <entry name="loadlast" type="Bool">
          <label>Load Last</label>
          <whatsthis>Enables/Disables Loading of the last open file</whatsthis>

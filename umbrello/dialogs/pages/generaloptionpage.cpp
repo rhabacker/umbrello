@@ -134,6 +134,30 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     m_GeneralWidgets.autosaveSuffixT->setToolTip(autoSaveSuffixToolTip);
     topLayout->addWidget(m_GeneralWidgets.autosaveGB);
 
+    //setup backup settings
+    QGroupBox *backupBox = new QGroupBox(i18n("Backup"));
+    topLayout->addWidget(backupBox);
+    QGridLayout * backupLayout = new QGridLayout(backupBox);
+    m_GeneralWidgets.makeBackupCB = new QCheckBox(i18n("Create backup file when saving"), backupBox);
+    m_GeneralWidgets.makeBackupCB->setChecked(optionState.generalState.makeBackup);
+    backupLayout->addWidget(m_GeneralWidgets.makeBackupCB, 0, 0);
+    QLabel *label;
+    Dialog_Utils::makeLabeledEditField(backupLayout, 1,
+                                        label, i18n("Date related file name pattern:"),
+                                        m_GeneralWidgets.backupPatternT, optionState.generalState.backupDatePattern);
+    QString backupPatternToolTip = i18n("<qt><p>The date related file name pattern will be used to create the date part of the backup file name.</p>"
+    "<p>The following patterns are available:<ul>"
+    "<li>yyyy - Year</li>"
+    "<li>MM - Month</li>"
+    "<li>dd - Day</li>"
+    "<li>HH - Hour</li>"
+    "<li>mm - Minute</li>"
+    "<li>ss - Seconds</li>"
+    "</ul></p>"
+    "</qt>");
+    label->setToolTip(backupPatternToolTip);
+    m_GeneralWidgets.backupPatternT->setToolTip(backupPatternToolTip);
+
     //setup startup settings
     m_GeneralWidgets.startupGB = new QGroupBox(i18n("Startup"));
     topLayout->addWidget(m_GeneralWidgets.startupGB);
@@ -224,6 +248,8 @@ void GeneralOptionPage::apply()
     optionState.generalState.autosavetime = m_GeneralWidgets.timeISB->value();
     // retrieve Suffix setting from dialog entry
     optionState.generalState.autosavesuffix = m_GeneralWidgets.autosaveSuffixT->text();
+    optionState.generalState.makeBackup = m_GeneralWidgets.makeBackupCB->isChecked();
+    optionState.generalState.backupDatePattern = m_GeneralWidgets.backupPatternT->text();
     optionState.generalState.loadlast = m_GeneralWidgets.loadlastCB->isChecked();
     optionState.generalState.diagram  = Uml::DiagramType::fromInt(m_GeneralWidgets.diagramKB->currentIndex() + 1);
     optionState.generalState.defaultLanguage = Uml::ProgrammingLanguage::fromInt(m_GeneralWidgets.languageKB->currentIndex());

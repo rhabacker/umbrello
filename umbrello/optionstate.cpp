@@ -44,6 +44,8 @@ namespace Settings {
         }
 
         autosavesuffix =  UmbrelloSettings::autosavesuffix();
+        makeBackup =  UmbrelloSettings::makebackup();
+        backupDatePattern =  UmbrelloSettings::backupdatepattern();
         loadlast =  UmbrelloSettings::loadlast();
         diagram  = UmbrelloSettings::diagram();
         defaultLanguage =  UmbrelloSettings::defaultLanguage();
@@ -60,6 +62,8 @@ namespace Settings {
         UmbrelloSettings::setTime(time);
         UmbrelloSettings::setAutosavetime(autosavetime);
         UmbrelloSettings::setAutosavesuffix(autosavesuffix);
+        UmbrelloSettings::setMakebackup(makeBackup);
+        UmbrelloSettings::setBackupdatepattern(backupDatePattern);
         UmbrelloSettings::setLoadlast(loadlast);
         UmbrelloSettings::setUml2(uml2);
         UmbrelloSettings::setDiagram(diagram);
