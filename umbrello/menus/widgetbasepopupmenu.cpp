@@ -633,6 +633,8 @@ void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *m
             insert(mt_Component, menu);
             if (Settings::optionState().generalState.uml2)
                 insert(mt_Port, menu);
+            insert(mt_InterfaceProvided, menu);
+            insert(mt_InterfaceRequired, menu);
             insert(mt_Artifact, menu);
             break;
         case WidgetBase::wt_Class:
@@ -661,6 +663,10 @@ void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *m
             break;
         case WidgetBase::wt_Enum:
             insert(mt_EnumLiteral, menu);
+            break;
+        case WidgetBase::wt_Port:
+            insert(mt_InterfaceProvided, menu);
+            insert(mt_InterfaceRequired, menu);
             break;
         case WidgetBase::wt_State:
             insert(mt_State, menu);

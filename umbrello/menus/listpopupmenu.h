@@ -92,6 +92,8 @@ public:
         mt_Instance,
         mt_InstanceAttribute,
         mt_Interface,
+        mt_InterfaceProvided,
+        mt_InterfaceRequired,
         mt_Junction,
         mt_MessageAsynchronous,
         mt_MessageFound,

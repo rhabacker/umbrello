@@ -23,6 +23,7 @@
 #include "docwindow.h"
 #include "floatingtextwidget.h"
 #include "forkjoinwidget.h"
+#include "interfacewidget.h"
 #include "notewidget.h"
 #include "messagewidget.h"
 #include "object_factory.h"
@@ -919,6 +920,20 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
     case ListPopupMenu::mt_Invoke_Activity:
         addConnectedWidget(new ActivityWidget(umlScene(), ActivityWidget::Invok), Uml::AssociationType::Activity, false);
         break;
+    case ListPopupMenu::mt_InterfaceProvided: {
+        UMLObject *o = Object_Factory::createUMLObject(UMLObject::ot_Interface);
+        InterfaceWidget *w = new InterfaceWidget(umlScene(), o->asUMLClassifier());
+        w->setDrawAsCircle(true);
+        addConnectedWidget(w, Uml::AssociationType::Association);
+        break;
+    }
+    case ListPopupMenu::mt_InterfaceRequired: {
+        UMLObject *o = Object_Factory::createUMLObject(UMLObject::ot_Interface);
+        InterfaceWidget *w = new InterfaceWidget(umlScene(), o->asUMLClassifier());
+        w->setDrawAsCircle(true);
+        addConnectedWidget(w, Uml::AssociationType::Association, true, true);
+        break;
+    }
     case ListPopupMenu::mt_Object_Node:
         addConnectedWidget(new ObjectNodeWidget(umlScene(), ObjectNodeWidget::Data), Uml::AssociationType::Activity, false);
         break;
@@ -2100,8 +2115,9 @@ bool UMLWidget::loadFromXMI1(QDomElement & qElement)
  * @param widget widget instance to add to diagram
  * @param type association type
  * @param setupSize if true setup size to a predefined value
+ * @param switchAssocDirection switch direction of association
  */
-void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type, bool setupSize)
+void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type, bool setupSize, bool switchAssocDirection)
 {
     umlScene()->addItem(widget);
     widget->setX(x() + rect().width() + 100);
@@ -2111,7 +2127,8 @@ void UMLWidget::addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum
         QSizeF size = widget->minimumSize();
         widget->setSize(size);
     }
-    AssociationWidget* assoc = AssociationWidget::create(umlScene(), this, type, widget);
+    AssociationWidget* assoc = switchAssocDirection ? AssociationWidget::create(umlScene(), widget, type, this)
+                                                    : AssociationWidget::create(umlScene(), this, type, widget);
     umlScene()->addAssociation(assoc);
     umlScene()->clearSelected();
     umlScene()->selectWidget(widget);

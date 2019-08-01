@@ -278,7 +278,7 @@ protected:
 
     virtual void toForeground();
 
-    void addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type = Uml::AssociationType::Association, bool setupSize = true);
+    void addConnectedWidget(UMLWidget *widget, Uml::AssociationType::Enum type = Uml::AssociationType::Association, bool setupSize = true, bool switchAssocDirection = false);
     void addWidget(UMLWidget *widget, bool showProperties = true);
 
     ///////////////// Data Loaded/Saved /////////////////////////////////
