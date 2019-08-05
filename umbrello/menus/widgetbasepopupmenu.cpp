@@ -632,10 +632,13 @@ void WidgetBasePopupMenu::insertSubMenuNew(WidgetBase::WidgetType type, KMenu *m
         case WidgetBase::wt_Component:
             insert(mt_Subsystem, menu);
             insert(mt_Component, menu);
-            if (Settings::optionState().generalState.uml2)
+            if (Settings::optionState().generalState.uml2) {
                 insert(mt_Port, menu);
-            insert(mt_InterfaceProvided, menu);
-            insert(mt_InterfaceRequired, menu);
+                insert(mt_InterfaceProvided, menu);
+                insert(mt_InterfaceRequired, menu);
+            } else {
+                insert(mt_Interface, menu);
+            }
             insert(mt_Artifact, menu);
             break;
         case WidgetBase::wt_Class:

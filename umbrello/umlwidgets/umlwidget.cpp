@@ -11,6 +11,8 @@
 #include "umlwidget.h"
 
 // local includes
+#include "artifact.h"
+#include "artifactwidget.h"
 #include "activitywidget.h"
 #include "actor.h"
 #include "actorwidget.h"
@@ -18,6 +20,8 @@
 #include "classifier.h"
 #include "classpropertiesdialog.h"
 #include "cmds.h"
+#include "component.h"
+#include "componentwidget.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "docwindow.h"
@@ -848,6 +852,28 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
     case ListPopupMenu::mt_Actor: {
         UMLActor *actor = new UMLActor;
         UMLWidget *widget = new ActorWidget(umlScene(), actor);
+        addConnectedWidget(widget, Uml::AssociationType::Association);
+        break;
+    }
+
+    case ListPopupMenu::mt_Artifact: {
+        UMLArtifact *a = new UMLArtifact();
+        ArtifactWidget *widget = new ArtifactWidget(umlScene(), a);
+        addConnectedWidget(widget, Uml::AssociationType::Association);
+        break;
+    }
+
+    case ListPopupMenu::mt_Component: {
+        UMLComponent *c = new UMLComponent();
+        ComponentWidget *widget = new ComponentWidget(umlScene(), c);
+        addConnectedWidget(widget, Uml::AssociationType::Association);
+        break;
+    }
+
+    case ListPopupMenu::mt_Interface: {
+        UMLClassifier *c = new UMLClassifier();
+        c->setBaseType(UMLObject::ot_Interface);
+        ClassifierWidget *widget = new ClassifierWidget(umlScene(), c);
         addConnectedWidget(widget, Uml::AssociationType::Association);
         break;
     }
