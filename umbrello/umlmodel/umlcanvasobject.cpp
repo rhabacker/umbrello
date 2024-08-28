@@ -125,6 +125,7 @@ int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc)
 void UMLCanvasObject::removeAllAssociationEnds()
 {
     for(UMLObject *o : subordinates()) {
+        uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Association) {
             continue;
         }

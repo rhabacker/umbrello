@@ -1791,6 +1791,10 @@ UMLObject::ObjectType convert_LVT_OT(UMLListViewItem::ListViewType lvt)
 {
     UMLObject::ObjectType ot = (UMLObject::ObjectType)0;
     switch (lvt) {
+    case UMLListViewItem::lvt_Association:
+        ot = UMLObject::ot_Association;
+        break;
+
     case UMLListViewItem::lvt_UseCase:
         ot = UMLObject::ot_UseCase;
         break;
@@ -1936,9 +1940,24 @@ Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt, UMLObject
         case UMLListViewItem::lvt_Actor:
             icon = Icon_Utils::it_Actor;
             break;
-        case UMLListViewItem::lvt_Association:
-            icon = Icon_Utils::it_Association;
+        case UMLListViewItem::lvt_Association: {
+            UMLAssociation *assoc = o->asUMLAssociation();
+            if (o) {
+                switch(assoc->type()) {
+                case Uml::AssociationType::Generalization:
+                    icon = Icon_Utils::it_Generalisation;
+                    break;
+                case Uml::AssociationType::Dependency:
+                    icon = Icon_Utils::it_Dependency;
+                    break;
+                default:
+                    icon = Icon_Utils::it_Association;
+                }
+            } else {
+                icon = Icon_Utils::it_Association;
+            }
             break;
+        }
         case UMLListViewItem::lvt_UseCase:
             icon = Icon_Utils::it_UseCase;
             break;

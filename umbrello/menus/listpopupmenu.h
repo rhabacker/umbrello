@@ -60,6 +60,7 @@ public:
         mt_Activity_Transition,
         mt_Actor,
         mt_Artifact,
+        mt_Association,
         mt_Attribute,
         mt_Branch,
         mt_Category,

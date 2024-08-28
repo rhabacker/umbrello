@@ -71,7 +71,7 @@ public:
 
     static bool mayHaveChildItems(UMLObject::ObjectType type);
 
-    void addNewItem(UMLListViewItem * parent, UMLListViewItem::ListViewType type);
+    void addNewItem(UMLListViewItem * parent, UMLListViewItem::ListViewType type, UMLObject *object = nullptr);
 
     UMLListViewItem * findUMLObject(const UMLObject *p) const;
     UMLListViewItem * findView(UMLView *v);

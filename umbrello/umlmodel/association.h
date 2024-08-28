@@ -76,6 +76,8 @@ public:
 
     virtual bool showPropertiesDialog(QWidget *parent = nullptr);
 
+    Uml::AssociationType::Enum type() { return m_AssocType; }
+
 protected:
 
     bool load1(QDomElement& element);

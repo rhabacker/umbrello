@@ -14,6 +14,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "classifierwidget.h"
+#include "umllistview.h"
 #define DBG_SRC QStringLiteral("AssociationWidget")
 #include "debug_utils.h"
 #include "dialog_utils.h"
@@ -155,6 +156,8 @@ AssociationWidget* AssociationWidget::create
                 }
                 if (myAssoc == nullptr) {
                     myAssoc = new UMLAssociation(assocType, umlRoleA, umlRoleB);
+                    UMLListViewItem *parent = UMLApp::app()->listView()->findUMLObject(umlRoleA);
+                    UMLApp::app()->listView()->addNewItem(parent, UMLListViewItem::lvt_Association, myAssoc);
                     // CHECK: myAssoc is not yet inserted at any parent UMLPackage -
                     // need to check carefully that all callers do this, lest it be
                     // orphaned.

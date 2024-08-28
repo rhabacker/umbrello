@@ -3100,6 +3100,11 @@ void UMLApp::createBirdView(UMLView *view)
     connect(m_birdViewDock, SIGNAL(sizeChanged(QSize)), m_birdView, SLOT(slotDockSizeChanged(QSize)));
 }
 
+UMLListView *UMLApp::listView()
+{
+    return m_listView;
+}
+
 /**
  * Slot for changes of the bird view's rectangle by moving.
  * @param delta   change value for a move

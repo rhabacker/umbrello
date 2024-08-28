@@ -330,6 +330,10 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
     ListPopupMenu::MenuType menuType = ListPopupMenu::typeFromAction(action);
 
     switch (menuType) {
+    case ListPopupMenu::mt_Association:
+        addNewItem(currItem, UMLListViewItem::lvt_Association);
+        break;
+
     case ListPopupMenu::mt_Activity_Diagram:
         addNewItem(currItem, UMLListViewItem::lvt_Activity_Diagram);
         break;
@@ -959,7 +963,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
     if (newItem) {
         logDebug3("UMLListView::slotObjectCreated %1, type=%2, id=%3: item already exists",
                   object->name(), newItem->type(), Uml::ID::toString(object->id()));
-        Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(newItem->type());
+        Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(newItem->type(), object);
         newItem->setIcon(icon);
         return;
     }
@@ -2236,7 +2240,7 @@ void UMLListView::slotDeleteSelectedItems()
  * Method will take care of signalling anyone needed on creation of new item.
  * e.g. UMLDoc if a UMLObject is created.
  */
-void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListViewType type)
+void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListViewType type, UMLObject *object)
 {
     parentItem->setOpen(true);
 
@@ -2266,7 +2270,9 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
         return;
     }
 
-    if (Model_Utils::typeIsClassifierList(type)) {
+    if (objectType == UMLObject::ot_Association) {
+        UMLListViewItem *item = new UMLListViewItem(parentItem, object->name(), type, object);
+    } else if (Model_Utils::typeIsClassifierList(type)) {
         UMLClassifier* classifier = parent->asUMLClassifier();
         QString name = classifier->uniqChildName(objectType);
         UMLObject* object = Object_Factory::createChildObject(classifier, objectType, name);
