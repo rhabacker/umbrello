@@ -136,6 +136,7 @@
           widgetaid CDATA #IMPLIED
           widgetbid CDATA #IMPLIED
           xmi.id CDATA #IMPLIED
+          localid CDATA #IMPLIED
 >
 <!ELEMENT boxwidget ANY >
 <!ATTLIST boxwidget
@@ -159,6 +160,7 @@
 <!ATTLIST classwidget
           %UMLWidgetAtts;
           %ClassifierWidgetAtts;
+          showdocumentation CDATA #IMPLIED
 >
 <!ELEMENT combinedFragmentwidget ANY >
 <!ATTLIST combinedFragmentwidget
@@ -267,6 +269,7 @@
           %UMLWidgetAtts;
           xclicked CDATA #IMPLIED
           yclicked CDATA #IMPLIED
+          showdocumentation CDATA #IMPLIED
 >
 <!ELEMENT pinwidget ANY >
 <!ATTLIST pinwidget
