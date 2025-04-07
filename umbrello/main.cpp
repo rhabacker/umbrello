@@ -167,6 +167,8 @@ int main(int argc, char *argv[])
     parser.addOption(importDir);
     QCommandLineOption setProgLang(QStringLiteral("set-language"), i18n("set language"), QStringLiteral("proglang"));
     parser.addOption(setProgLang);
+    QCommandLineOption saveAs(QStringLiteral("save-as"), i18n("save actual file as"), QStringLiteral("path"));
+    parser.addOption(saveAs);
 
     parser.process(app);
     aboutData.processCommandLine(&parser);
@@ -253,6 +255,9 @@ int main(int argc, char *argv[])
             }
             bool useFolders = parsedArgs->isSet(QStringLiteral("use-folders"));
             exportAllViews(extension, directory, useFolders);
+        } else if (parsedArgs->isSet(QStringLiteral("save-as"))) {
+            uml->document()->saveDocument(QUrl::fromLocalFile(parsedArgs->value(QStringLiteral("save-as"))));
+            return 0;
         }
     }
     int result = app.exec();
