@@ -38,7 +38,7 @@ void getFiles(QStringList& files, const QString& path, QStringList& filters);
  */
 bool showGUI(const QCommandLineParser *args)
 {
-    if (args->values(QStringLiteral("export")).size() > 0 || args->isSet(QStringLiteral("export-formats"))) {
+    if (args->values(QStringLiteral("export")).size() > 0 || args->isSet(QStringLiteral("export-formats")) || args->values(QStringLiteral("save-as")).size() > 0 ) {
         return false;
     }
     return true;
@@ -169,6 +169,10 @@ int main(int argc, char *argv[])
     parser.addOption(setProgLang);
     QCommandLineOption saveAs(QStringLiteral("save-as"), i18n("save actual file as"), QStringLiteral("path"));
     parser.addOption(saveAs);
+    QCommandLineOption enableUML2(QStringLiteral("enable-uml2"), i18n("enable uml2 support"));
+    parser.addOption(enableUML2);
+    QCommandLineOption disableUML2(QStringLiteral("disable-uml2"), i18n("disable uml2 support"));
+    parser.addOption(disableUML2);
 
     parser.process(app);
     aboutData.processCommandLine(&parser);
@@ -198,6 +202,14 @@ int main(int argc, char *argv[])
 
         if (showGUI(parsedArgs)) {
             uml->show();
+        }
+
+        if (parsedArgs->isSet("enable-uml2")) {
+            Settings::OptionState &optionState = Settings::optionState();
+            optionState.generalState.uml2 = true;
+        } else if (parsedArgs->isSet("disable-uml2")) {
+            Settings::OptionState &optionState = Settings::optionState();
+            optionState.generalState.uml2 = false;
         }
 
         Uml::ProgrammingLanguage::Enum lang = Uml::ProgrammingLanguage::Reserved;
