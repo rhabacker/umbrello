@@ -2,3 +2,5 @@
 kdoctools_create_handbook(index.docbook INSTALL_DESTINATION ${HTML_INSTALL_DIR}/en SUBDIR umbrello)
 
 add_subdirectory(apphelp)
+
+add_subdirectory(xml)
