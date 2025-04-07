@@ -104,6 +104,7 @@
           id CDATA #IMPLIED
 >
 
+<!--
 <!ELEMENT uml:Diagram.element (xmi:Extension |
                                elementFill |
                                elementFont |
@@ -115,7 +116,7 @@
           preferredShapeType CDATA #IMPLIED
           subject CDATA #IMPLIED
 >
-
+-->
 <!ELEMENT elementFill EMPTY>
 <!ATTLIST elementFill
           color1 CDATA #IMPLIED
