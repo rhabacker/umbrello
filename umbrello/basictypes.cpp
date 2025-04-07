@@ -1304,7 +1304,9 @@ QString toString(const ID::Type &id)
 
 ID::Type fromString(const QString &id)
 {
-    return qPrintable(id);
+    QString s(id);
+    s.replace(QLatin1Char(' '), QLatin1Char('_'));
+    return qPrintable(s);
 }
 
 }  // end namespace ID
