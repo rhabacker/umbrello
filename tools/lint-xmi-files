@@ -23,13 +23,18 @@ else
     stylesheet=$r/doc/xml/uml-1.4-umbrello.dtd
 fi
 
-if test -n "$1"; then
-    dir="$1"
+if test -f "$1"; then
+    files=$1
 else
-    dir="$r/models/diagrams/"
+    if test -d "$1"; then
+        dir="$1"
+    else
+        dir="$r/models/diagrams/"
+    fi
+    files=$(find $dir -name '*.xmi')
 fi
 
-find $dir -name '*.xmi' -print | xargs -n 1 xmllint --dtdvalid $stylesheet --noout  2> out.log;  $r/tools/xmllint2dtd out.log
+echo $files | xargs -n 1 xmllint --dtdvalid $stylesheet --noout  2> out.log;  $r/tools/xmllint2dtd out.log
 
 result=$?
 exit $result
