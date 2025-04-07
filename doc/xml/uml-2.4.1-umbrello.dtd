@@ -51,8 +51,8 @@
    isSpecification CDATA #IMPLIED
    name CDATA #IMPLIED
    namespace CDATA #IMPLIED
-   visibility %UML.VisibilityKind; #IMPLIED
-   xmi:id CDATA #IMPLIED'>
+   visibility CDATA #IMPLIED
+   xmi.id CDATA #IMPLIED'>
 
 
 <!ELEMENT UML:Entity (UML:EntityAttribute |
