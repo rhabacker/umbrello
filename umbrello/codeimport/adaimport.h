@@ -12,6 +12,8 @@
 #include <QMap>
 #include <QStringList>
 
+class UMLDoc;
+
 /**
  * Ada code import
  * @author Oliver Kellogg
@@ -24,7 +26,6 @@ public:
     virtual ~AdaImport();
 
 protected:
-
     void initVars();
 
     bool parseStmt();

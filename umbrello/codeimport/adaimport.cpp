@@ -460,6 +460,66 @@ bool AdaImport::parseStmt()
         keyword = advance();
     if (keyword == QStringLiteral("overriding"))
         keyword = advance();
+#if 0
+    if (keyword == QStringLiteral("function") || keyword == QStringLiteral("procedure")) {
+        const QString& name = advance();
+        QString returnType;
+
+        // Check for parameterless functions (original logic)
+        if (advance() != QStringLiteral("(")) {
+            logDebug2("AdaImport::parseStmt(%1): ignoring parameterless %2", keyword, name);
+            skipStmt();
+            return true;
+        }
+
+        UMLClassifier *klass = m_klass; // current class in scope
+        UMLOperation *op = nullptr;
+
+        const uint MAX_PARNAMES = 16;
+        QStringList parNames;
+        QList<Uml::ParameterDirection::Enum> parDirs;
+        QList<QString> parTypes;
+
+        // Parse parameters
+        while (m_srcIndex < m_source.count() && m_source[m_srcIndex] != QStringLiteral(")")) {
+            QString parName = advance();
+            if (m_source[m_srcIndex] != QStringLiteral(":")) {
+                logError2("AdaImport::parseStmt: expecting ':' at %1 (index %2)",
+                          m_source[m_srcIndex], m_srcIndex);
+                skipStmt();
+                break;
+            }
+            advance(); // skip ':'
+            QString typeName = advance();
+            parNames << parName;
+            parDirs << Uml::ParameterDirection::In; // default direction
+            parTypes << typeName;
+            if (m_source[m_srcIndex] == QStringLiteral(",")) m_srcIndex++;
+        }
+        if (m_source[m_srcIndex] == QStringLiteral(")")) m_srcIndex++;
+
+        // Advance past 'return' if present
+        if (m_source[m_srcIndex] == QStringLiteral("return")) {
+            m_srcIndex++;
+            returnType = advance();
+        }
+
+        // Always create an operation
+        if (klass) {
+            op = Import_Utils::makeOperation(klass, name);
+            for (int i = 0; i < parNames.size(); ++i) {
+                Import_Utils::addMethodParameter(op, parNames[i], parTypes[i], parDirs[i]);
+            }
+            if (!returnType.isEmpty())
+                op->setType(returnType);
+        } else {
+            logDebug2("AdaImport::parseStmt(%1): no current class for operation %1", keyword, name);
+        }
+
+        skipStmt(QStringLiteral(";"));
+        return true;
+    }
+#else
     if (keyword == QStringLiteral("function") || keyword == QStringLiteral("procedure")) {
         const QString& name = advance();
         QString returnType;
@@ -543,6 +603,7 @@ bool AdaImport::parseStmt()
             if (advance() != QStringLiteral(";"))
                 break;
         }
+#endif
         if (keyword == QStringLiteral("function")) {
             if (advance() != QStringLiteral("return")) {
                 if (klass)

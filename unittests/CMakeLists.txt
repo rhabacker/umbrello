@@ -61,6 +61,14 @@ set(LIBS
 )
 
 ecm_add_test(
+    testadaimport.cpp
+    testbase.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME testadaimport
+    ${ENVIRONMENT}
+)
+
+ecm_add_test(
     testbasictypes.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME testbasictypes
