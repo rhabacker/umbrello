@@ -227,7 +227,7 @@ void SelectOperationDialog::setupOperationsList()
         m_pOpCB->insertItem(list.count(), s);
         m_pOpCB->completionObject()->addItem(s);
     }
-    m_nOpCount = m_classifier->operations();
+    m_nOpCount = m_classifier->numberOfOperations();
 }
 
 /**

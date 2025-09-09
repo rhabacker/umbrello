@@ -924,7 +924,7 @@ bool UMLClassifier::hasAbstractOps () const
  *
  * @return   The number of operations for the Classifier.
  */
-int UMLClassifier::operations() const
+int UMLClassifier::numberOfOperations() const
 {
     return getOperationsList().count();
 }

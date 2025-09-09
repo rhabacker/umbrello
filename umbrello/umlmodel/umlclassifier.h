@@ -80,7 +80,7 @@ public:
 
     int removeOperation(UMLOperation *op);
 
-    int operations() const;
+    int numberOfOperations() const;
 
     UMLOperationList getOperationsList(bool includeInherited = false, UMLClassifierSet  *alreadyTraversed = nullptr) const;
 
