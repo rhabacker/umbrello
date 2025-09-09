@@ -79,7 +79,8 @@ namespace Import_Utils {
 
     UMLAttribute* addMethodParameter(UMLOperation *method,
                                      const QString& type,
-                                     const QString& name);
+                                     const QString& name,
+                                     Uml::ParameterDirection::Enum dir = Uml::ParameterDirection::In);
 
     void addEnumLiteral(UMLEnum *enumType, const QString &literal,
                         const QString &comment = QString(),

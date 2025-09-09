@@ -596,7 +596,7 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
  */
 UMLAttribute* addMethodParameter(UMLOperation *method,
                                  const QString& type,
-                                 const QString& name)
+                                 const QString& name, Uml::ParameterDirection::Enum dir)
 {
     UMLClassifier *owner = method->umlParent()->asUMLClassifier();
     UMLObject *typeObj = owner ? owner->findTemplate(type) : nullptr;
@@ -608,6 +608,7 @@ UMLAttribute* addMethodParameter(UMLOperation *method,
         bPutAtGlobalScope = false;
     }
     UMLAttribute *attr = Object_Factory::createAttribute(method, name, typeObj);
+    attr->setParmKind(dir);
     method->addParameter(attr);
     return attr;
 }
