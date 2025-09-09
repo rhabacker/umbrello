@@ -164,6 +164,10 @@ UMLPackage *NativeImportBase::popScope()
  */
 UMLPackage *NativeImportBase::currentScope()
 {
+    if (m_scope.isEmpty()) {
+        return nullptr;
+    }
+
     UMLPackage *p = m_scope.last();
     return p;
 }
