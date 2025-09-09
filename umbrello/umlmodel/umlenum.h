@@ -45,7 +45,9 @@ public:
 
     int removeEnumLiteral(UMLEnumLiteral* literal);
 
-    int enumLiterals() const;
+    int numberOfEnumLiterals() const;
+
+    UMLObjectList &enumLiterals() const;
 
     void signalEnumLiteralRemoved(UMLClassifierListItem *elit);
 

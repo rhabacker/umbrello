@@ -223,7 +223,7 @@ QSizeF EnumWidget::minimumSize() const
     int lines = 1;//always have one line - for name
     lines++; //for the stereotype
 
-    const int numberOfEnumLiterals = m_umlObject->asUMLEnum()->enumLiterals();
+    const int numberOfEnumLiterals = m_umlObject->asUMLEnum()->numberOfEnumLiterals();
 
     height = width = 0;
     //set the height of the enum

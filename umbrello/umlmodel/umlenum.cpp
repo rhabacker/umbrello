@@ -213,16 +213,21 @@ int UMLEnum::removeEnumLiteral(UMLEnumLiteral* literal)
     // for us by QObject. -b.t.
     // disconnect(a, SIGNAL(modified()), this, SIGNAL(modified()));
     delete literal;
-    return subordinates().count();
+    return numberOfEnumLiterals();
 }
 
 /**
  * Returns the number of enumliterals for the class.
  * @return  The number of enumliterals for the class.
  */
-int UMLEnum::enumLiterals() const
+int UMLEnum::numberOfEnumLiterals() const
 {
     return subordinates().count();
+}
+
+UMLObjectList &UMLEnum::enumLiterals() const
+{
+    return subordinates();
 }
 
 /**
