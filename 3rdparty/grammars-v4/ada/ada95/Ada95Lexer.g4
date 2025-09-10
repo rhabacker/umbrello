@@ -119,8 +119,8 @@ WITH  : 'with';
 
 XOR: 'xor';
 
-WHITESPACE   : [ \t\r\n]+    -> channel(HIDDEN);
-LINE_COMMENT : '--' ~[\r\n]* -> channel(HIDDEN);
+WHITESPACE   : [ \t\r\n]+    -> skip;
+LINE_COMMENT : '--' ~[\r\n]* -> skip;
 
 IDENTIFIER_      : LETTER+ [A-Z_0-9]*;
 NUMERIC_LITERAL_ : DECIMAL_LITERAL_ | BASED_LITERAL;
