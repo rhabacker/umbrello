@@ -115,7 +115,7 @@ void UMLAttribute::setInitialValue(const QString &iv)
     }
 }
 
-void UMLAttribute::setParmKind (Uml::ParameterDirection::Enum pk)
+void UMLAttribute::setParmKind(Uml::ParameterDirection::Enum pk)
 {
     m_ParmKind = pk;
 }
