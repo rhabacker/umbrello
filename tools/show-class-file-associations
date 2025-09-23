@@ -3,15 +3,31 @@
 # SPDX-FileCopyrightText: 2025 Ralf Habacker <ralf.habacker@freenet.de>
 # SPDX-License-Identifier: MIT
 
-find umbrello unittests lib tools -name '*.h' | grep -v kdev| xargs gawk '
+if test -n "$1"; then
+    paths=$1
+else
+    paths="umbrello unittests lib tool"
+fi
+
+if test -n "$2"; then
+    exclude_path=$2
+else
+    exclude_path="kdev"
+fi
+
+find $paths -name '*.h' | grep -v "$exclude_path" | xargs gawk '
 $0 ~ /^class\s+/ && $0 !~ /;/ {
     f=FILENAME
     gsub(/:.*$/,"",f)
     b=f
     gsub(/^.*\//, "", b)
-    c=$2
+    if ($2 ~ /.*_EXPORT/)
+        c=$3
+    else
+        c = $2
     gsub(/[;:].*$/,"",c)
     e=tolower(c) ".h"
     if (b != e)
         print f " " c " " e
-}'
+}
+'
