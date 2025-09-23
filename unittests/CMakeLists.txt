@@ -2,6 +2,11 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 set(SRC_PATH ../umbrello)
 include(ECMAddTests)
 
+add_definitions(
+    -DCMAKE_CURRENT_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
+    -DCMAKE_SOURCE_DIR="${CMAKE_SOURCE_DIR}"
+)
+
 set(ENVIRONMENT
     ENVIRONMENT
         LANG=C.UTF-8
@@ -58,6 +63,14 @@ set(LIBS
     ${LIBXML2_LIBRARIES}
     ${LIBXSLT_LIBRARIES}
     libumbrello
+)
+
+ecm_add_test(
+    testada95import.cpp
+    testbase.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME testada95import
+    ${ENVIRONMENT}
 )
 
 ecm_add_test(

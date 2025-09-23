@@ -70,6 +70,7 @@
     <Menu name="active_lang_menu"><text>Active &amp;Language</text>
       <Action name="setLang_actionscript"/>
       <Action name="setLang_ada"/>
+      <Action name="setLang_ada95"/>
       <Action name="setLang_cpp"/>
       <Action name="setLang_csharp"/>
       <Action name="setLang_d"/>

@@ -11,6 +11,10 @@ include_directories(
     ../../lib/interfaces/
 )
 
+if(BUILD_ADA95_IMPORT)
+    add_subdirectory(ada95)
+endif()
+
 set(libcodeimport_SRCS
     adaimport.cpp
     classimport.cpp
@@ -61,6 +65,7 @@ target_link_libraries(codeimport
     KF${QT_MAJOR_VERSION}::WidgetsAddons
     KF${QT_MAJOR_VERSION}::XmlGui
     KF${QT_MAJOR_VERSION}::Crash
+    ${ADA95IMPORT_LIBRARY}
 )
 if(BUILD_PHP_IMPORT)
     target_link_libraries(codeimport

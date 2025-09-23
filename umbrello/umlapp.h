@@ -301,6 +301,7 @@ public Q_SLOTS:
 private Q_SLOTS:
     void setLang_actionscript();
     void setLang_ada();
+    void setLang_ada95();
     void setLang_cpp();
     void setLang_csharp();
     void setLang_d();

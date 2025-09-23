@@ -25,6 +25,8 @@ option(BUILD_PHP_IMPORT "Build with php import support" ON)
 
 option(BUILD_QCH "Build with QCH support" ON)
 
+option(BUILD_ADA95_IMPORT "Enable Ada 95 source import support" ON)
+
 option(BUILD_TESTING "Build unit tests" ON)
 
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked

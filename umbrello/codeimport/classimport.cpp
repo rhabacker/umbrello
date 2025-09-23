@@ -22,6 +22,7 @@
 #include "csharpimport.h"
 #include "codeimpthread.h"
 #include "valaimport.h"
+#include "ada95import.h"
 #ifdef ENABLE_PHP_IMPORT
 #include "phpimport.h"
 #endif
@@ -47,9 +48,12 @@ ClassImport *ClassImport::createImporterByFileExt(const QString &fileName, CodeI
         classImporter = new PythonImport(thread);
     else if (fileName.endsWith(QStringLiteral(".java")))
         classImporter = new JavaImport(thread);
-    else if (fileName.contains(QRegularExpression(QStringLiteral("\\.ad[sba]$"))))
-        classImporter = new AdaImport(thread);
-    else if (fileName.endsWith(QStringLiteral(".pas")))
+    else if (fileName.contains(QRegularExpression(QStringLiteral("\\.ad[sba]$")))) {
+        if (UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::Enum::Ada95)
+            classImporter = new Ada95Import(thread);
+        else
+            classImporter = new AdaImport(thread);
+    } else if (fileName.endsWith(QStringLiteral(".pas")))
         classImporter = new PascalImport(thread);
     else if (fileName.endsWith(QStringLiteral(".cs")))
         classImporter = new CSharpImport(thread);

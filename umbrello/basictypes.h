@@ -309,6 +309,7 @@ namespace Uml
             Tcl,
             Vala,
             XMLSchema,
+            Ada95,
             Reserved   // for UML Primitive Types (no code generator)
         };
         QString toString(Enum item);

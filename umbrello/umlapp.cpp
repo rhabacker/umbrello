@@ -379,6 +379,7 @@ void UMLApp::initActions()
 
     setProgLangAction(Uml::ProgrammingLanguage::ActionScript, "ActionScript",    "setLang_actionscript");
     setProgLangAction(Uml::ProgrammingLanguage::Ada,          "Ada",             "setLang_ada");
+    setProgLangAction(Uml::ProgrammingLanguage::Ada95,        "Ada95",           "setLang_ada95");
     setProgLangAction(Uml::ProgrammingLanguage::Cpp,          "C++",             "setLang_cpp");
     setProgLangAction(Uml::ProgrammingLanguage::CSharp,       "C#",              "setLang_csharp");
     setProgLangAction(Uml::ProgrammingLanguage::D,            "D",               "setLang_d");
@@ -401,6 +402,7 @@ void UMLApp::initActions()
 
     connect(m_langAct[Uml::ProgrammingLanguage::ActionScript], SIGNAL(triggered()), this, SLOT(setLang_actionscript()));
     connect(m_langAct[Uml::ProgrammingLanguage::Ada],          SIGNAL(triggered()), this, SLOT(setLang_ada()));
+    connect(m_langAct[Uml::ProgrammingLanguage::Ada95],        SIGNAL(triggered()), this, SLOT(setLang_ada95()));
     connect(m_langAct[Uml::ProgrammingLanguage::Cpp],          SIGNAL(triggered()), this, SLOT(setLang_cpp()));
     connect(m_langAct[Uml::ProgrammingLanguage::CSharp],       SIGNAL(triggered()), this, SLOT(setLang_csharp()));
     connect(m_langAct[Uml::ProgrammingLanguage::D],            SIGNAL(triggered()), this, SLOT(setLang_d()));
@@ -2314,6 +2316,11 @@ void UMLApp::setLang_actionscript()
 void UMLApp::setLang_ada()
 {
     setActiveLanguage(Uml::ProgrammingLanguage::Ada);
+}
+
+void UMLApp::setLang_ada95()
+{
+    setActiveLanguage(Uml::ProgrammingLanguage::Ada95);
 }
 
 void UMLApp::setLang_cpp()
