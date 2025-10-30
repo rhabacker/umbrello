@@ -588,6 +588,11 @@ bool UMLFolder::load1(QDomElement& element)
     return totalSuccess;
 }
 
+const UMLViewList &UMLFolder::views() const
+{
+    return m_diagrams;
+}
+
 bool UMLFolder::showPropertiesDialog(QWidget *parent)
 {
     Q_UNUSED(parent);

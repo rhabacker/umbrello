@@ -503,3 +503,8 @@ bool UMLPackage::load1(QDomElement& element)
     return true;
 }
 
+const UMLObjectList &UMLPackage::objects() const
+{
+    return m_objects;
+}
+

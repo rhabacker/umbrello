@@ -62,6 +62,8 @@ public:
 
     friend QDebug operator<<(QDebug out, const UMLFolder& item);
 
+    const UMLViewList &views() const;
+
 protected:
     void saveContents(QXmlStreamWriter& writer);
 

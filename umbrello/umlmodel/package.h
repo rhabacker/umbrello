@@ -60,6 +60,8 @@ public:
 
     virtual void saveToXMI(QXmlStreamWriter& writer);
 
+    const UMLObjectList &objects() const;
+
 protected:
     virtual bool load1(QDomElement& element);
 

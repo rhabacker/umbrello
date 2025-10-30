@@ -382,6 +382,10 @@ Q_SIGNALS:
      */
     void sigCurrentViewChanged();
 
+protected:
+    void checkAssociationWidgetsAfterLoad();
+    void collectAssociations(QList<UMLAssociation *> &out, UMLFolder *folder);
+    void createAssociationWidget(UMLAssociation *assoc);
 };
 
 #endif // UMLDOC_H

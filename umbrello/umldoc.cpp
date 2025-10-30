@@ -70,6 +70,7 @@
 #include <QTextStream>
 #include <QTimer>
 #include <QXmlStreamWriter>
+#include <associationwidget.h>
 
 DEBUG_REGISTER(UMLDoc)
 
@@ -702,7 +703,82 @@ bool UMLDoc::openDocument(const QUrl& url, const char *format /* = nullptr */)
     // for compatibility
     addDefaultStereotypes();
 
+    checkAssociationWidgetsAfterLoad();
     return true;
+}
+
+void UMLDoc::collectAssociations(QList<UMLAssociation*> &out, UMLFolder *folder)
+{
+    if (!folder)
+        return;
+
+    const UMLObjectList list = folder->containedObjects();
+    for (UMLObject *obj : list) {
+        if (obj->isUMLClassifier()) {
+            for(UMLObject *o : obj->asUMLClassifier()->objects()) {
+                if (o->isUMLAssociation()) {
+                    qDebug() << o;
+                    out.append(o->asUMLAssociation());
+                }
+            }
+        } else if (obj->isUMLFolder())
+            collectAssociations(out, obj->asUMLFolder());  // rekursiv weiter
+    }
+}
+
+void UMLDoc::createAssociationWidget(UMLAssociation *assoc)
+{
+    Uml::ID::Type idA = assoc->getObjectId(Uml::RoleType::A);
+    Uml::ID::Type idB = assoc->getObjectId(Uml::RoleType::B);
+
+    for (UMLView *view : viewIterator()) {
+        UMLWidget *widgetA = nullptr;
+        UMLWidget *widgetB = nullptr;
+        for (UMLWidget *w : view->umlScene()->widgetList()) {
+            if (w->id() == idA)
+                widgetA = w;
+            else if (w->id() == idB)
+                widgetB = w;
+        }
+        if (widgetA && widgetB) {
+            AssociationWidget *aw = AssociationWidget::create (view->umlScene(), widgetA, assoc->getAssocType(),
+                                                               widgetB, assoc);
+            view->umlScene()->addAssociation(aw);
+        }
+    }
+}
+
+void UMLDoc::checkAssociationWidgetsAfterLoad()
+{
+    // 1) Alle UMLAssociation-Objekte im Modell rekursiv finden
+    QList<UMLAssociation*> associations;
+    collectAssociations(associations, rootFolder(Uml::ModelType::Logical)); // rootFolder() liefert das oberste UMLFolder*
+
+    // 2) Alle AssociationWidgets in allen Diagrammen erfassen
+    QList<AssociationWidget*> widgets;
+    for (UMLView *view : viewIterator()) { // oder diagrams() je nach Umbrello-Version
+        for (UMLWidget *w : view->umlScene()->widgetList()) {
+            if (auto aw = qobject_cast<AssociationWidget*>(w))
+                widgets.append(aw);
+        }
+    }
+
+    // 3) Abgleich: welche UMLAssociation hat kein Widget?
+    for (UMLAssociation *assoc : associations) {
+        bool found = false;
+        for (AssociationWidget *aw : widgets) {
+            if (aw->association() == assoc) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            // find associated UMLWidget
+            qWarning() << "Fehlendes AssociationWidget für Association: "
+                       << assoc->name() << " (" << Uml::ID::toString(assoc->id()) << ")";
+            createAssociationWidget(assoc);
+        }
+    }
 }
 
 /**
