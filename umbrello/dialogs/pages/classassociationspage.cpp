@@ -112,7 +112,7 @@ void ClassAssociationsPage::slotRightButtonPressed(const QPoint &p)
 void ClassAssociationsPage::slotMenuSelection(QAction* action)
 {
     int currentItemIndex = m_pAssocLW->currentRow();
-    if (currentItemIndex == -1) {
+    if (currentItemIndex == -1 || currentItemIndex >= m_List.size()) {
         return;
     }
     AssociationWidget * a = m_List.at(currentItemIndex);
