@@ -8,6 +8,8 @@ set(ENVIRONMENT
         QT_LOGGING_RULES=umbrello.debug=false
 )
 
+set(CMAKE_AUTOMOC ON)
+
 include_directories(
       ${LIBXML2_INCLUDE_DIR}
       ${LIBXSLT_INCLUDE_DIR}
@@ -72,6 +74,14 @@ ecm_add_test(
     testbase.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME testumlobject
+    ${ENVIRONMENT}
+)
+
+ecm_add_test(
+    testumlscene.cpp
+    testbase.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME testumlscene
     ${ENVIRONMENT}
 )
 
