@@ -332,6 +332,7 @@ public:
     qreal fixX() const;
     qreal fixY() const;
 
+    void autoUpdateAssociationWidgets(UMLClassifier *cls);
 protected:
     // Methods and members related to loading/saving
 
@@ -396,6 +397,7 @@ protected:
     bool m_bPaste;
     bool m_bStartedCut;  ///< Flag if view/children started cut operation.
 
+    bool associationStillRequired(UMLAssociation *assoc);
 private:
     UMLScenePrivate *m_d;
     static const qreal s_defaultCanvasWidth;    ///< The default width of a diagram in pixels.

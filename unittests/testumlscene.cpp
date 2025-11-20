@@ -78,7 +78,9 @@ void TestUMLScene::test_updateAutoAssignments()
     qDebug() << "# remove classB from using as type, should remove association widget";
     UMLDatatype *type = doc->findDatatype(QStringLiteral("double"));
     attr->setType(type->asUMLObject());
-    scene->updateContainment(classA.data());
+    scene->autoUpdateAssociationWidgets(classA.data());
+
+    //scene->updateContainment(classA.data());
     QCOMPARE(scene->associationList().size(), 0);
 }
 

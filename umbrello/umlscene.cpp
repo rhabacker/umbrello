@@ -855,6 +855,42 @@ void UMLScene::slotObjectCreated(UMLObject* o)
     }
 }
 
+void UMLScene::autoUpdateAssociationWidgets(UMLClassifier *cls)
+{
+    // 1. Remove obsolete auto-association widgets
+    for (AssociationWidget *aw : associationList()) {
+        UMLAssociation *assoc = aw->association();
+        if (!assoc)
+            continue;
+
+        // Only handle auto-created associations
+        if (!aw->isAutoCreated())
+            continue;
+
+        if (!associationStillRequired(assoc)) {
+            removeWidget(aw);
+        }
+    }
+
+    // 2. Create new associations that now should exist
+    createAutoAssociations(cls);
+}
+
+bool UMLScene::associationStillRequired(UMLAssociation *assoc)
+{
+    UMLObject *roleA = assoc->getObject(Uml::RoleType::A);
+    UMLObject *roleB = assoc->getObject(Uml::RoleType::B);
+
+    // Example logic: association was auto-created if
+    // classA has an attribute whose type is classB.
+    for (auto *obj : roleA->asClassifier()->attributes()) {
+        if (obj->getType() == roleB)
+            return true;
+    }
+
+    return false;
+}
+
 /**
  * Slot called when an object is removed.
  * @param o   removed UML object
