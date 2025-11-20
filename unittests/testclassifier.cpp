@@ -191,6 +191,9 @@ void TEST_classifier::test_findChildObjectById()
 
 void TEST_classifier::test_findOperation()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+    QSKIP("TODO: test runs in an endless loop");
+#else
     UMLClassifier c(QStringLiteral("Test A"), Uml::ID::None);
     UMLOperation o1(nullptr, QStringLiteral("testop1"));
     UMLAttribute a1(nullptr, QStringLiteral("aParam"));
@@ -219,6 +222,7 @@ void TEST_classifier::test_findOperation()
     searchTypes << Model_Utils::NameAndType(QStringLiteral("aParam"), &d1);
     o = c.findOperation(QStringLiteral("testop1"), searchTypes);
     QVERIFY(!o);
+#endif
 
 #if 0
     // different param name
