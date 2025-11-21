@@ -857,34 +857,41 @@ void UMLScene::slotObjectCreated(UMLObject* o)
 
 void UMLScene::autoUpdateAssociationWidgets(UMLClassifier *cls)
 {
-    // 1. Remove obsolete auto-association widgets
+    UMLWidget *clsWidget = findWidget(cls->id());
+    if (!clsWidget)
+        return;
+
+    QList<AssociationWidget*> toRemove;
+
     for (AssociationWidget *aw : associationList()) {
-        UMLAssociation *assoc = aw->association();
+
+        UMLClassifierListItem *assoc = aw->umlObject()->asUMLClassifierListItem();
         if (!assoc)
             continue;
 
-        // Only handle auto-created associations
-        if (!aw->isAutoCreated())
-            continue;
-
-        if (!associationStillRequired(assoc)) {
-            removeWidget(aw);
-        }
+        if (!associationStillRequired(aw->umlObject()))
+            toRemove << aw;
     }
 
-    // 2. Create new associations that now should exist
-    createAutoAssociations(cls);
+    // remove obsolete ones
+    for (AssociationWidget *aw : toRemove)
+        removeWidget(aw);
+
+    // create any new ones
+    createAutoAssociations(clsWidget);
 }
 
 bool UMLScene::associationStillRequired(UMLAssociation *assoc)
 {
-    UMLObject *roleA = assoc->getObject(Uml::RoleType::A);
-    UMLObject *roleB = assoc->getObject(Uml::RoleType::B);
+    UMLClassifier *clsA = assoc->getObject(Uml::RoleType::A)->asUMLClassifier();
+    UMLClassifier *clsB = assoc->getObject(Uml::RoleType::B)->asUMLClassifier();
 
-    // Example logic: association was auto-created if
-    // classA has an attribute whose type is classB.
-    for (auto *obj : roleA->asClassifier()->attributes()) {
-        if (obj->getType() == roleB)
+    if (!clsA || !clsB)
+        return false;
+
+    // Check if clsA still has an attribute typed clsB
+    for (auto *attr : clsA->getAttributeList()) {
+        if (attr->getType() == clsB)
             return true;
     }
 
