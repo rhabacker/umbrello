@@ -172,15 +172,23 @@ void TEST_classifier::test_findOperations()
     c.addOperation(&o2);
     int num2 = c.getOperationsList().count();
     QCOMPARE(num2, 2);
+    qDebug() << __LINE__;
     QCOMPARE(c.findOperations(QStringLiteral("testop1")).count(), 1);
+    qDebug() << __LINE__;
     QCOMPARE(c.findOperations(QStringLiteral("testop2")).count(), 1);
+    qDebug() << __LINE__;
     QCOMPARE(c.findOperations(QStringLiteral("testOp1")).count(), 0);
+    qDebug() << __LINE__;
     QCOMPARE(c.findOperations(QStringLiteral("testOp2")).count(), 0);
+    qDebug() << __LINE__;
     // case insensitive language
     Uml::ProgrammingLanguage::Enum lang = UMLApp::app()->activeLanguage();
     UMLApp::app()->setActiveLanguage(Uml::ProgrammingLanguage::PostgreSQL);
+    qDebug() << __LINE__;
     QCOMPARE(c.findOperations(QStringLiteral("testOp1")).count(), 1);
+    qDebug() << __LINE__;
     QCOMPARE(c.findOperations(QStringLiteral("testOp2")).count(), 1);
+    qDebug() << __LINE__;
     UMLApp::app()->setActiveLanguage(lang);
 }
 
