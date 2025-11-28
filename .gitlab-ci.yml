@@ -4,6 +4,8 @@
 include:
   - project: sysadmin/ci-utilities
     file:
+      - /gitlab-templates/craft-appimage-qt6.yml
+      - /gitlab-templates/craft-windows-x86-64-qt6.yml
       - /gitlab-templates/linux.yml
       - /gitlab-templates/flatpak.yml
       - /gitlab-templates/freebsd-qt6.yml
@@ -37,3 +39,8 @@ distro_kf6_tumbleweed:
     - ./tools/ci-install.sh
   script:
     - ./tools/ci-build.sh
+
+windows_qt69:
+  variables:
+    # Fix error "fatal: Unable to persist credentials with the 'wincredman' credential store"
+    GCM_CREDENTIAL_STORE: "none"
