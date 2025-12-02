@@ -2871,6 +2871,25 @@ void UMLScene::createAutoAttributeAssociations2(UMLWidget *widget)
     }
 }
 
+void UMLScene::updateAutoAttributeAssociation(UMLClassifier *klass, UMLAttribute *attr,
+                                              UMLWidget *widget, UMLClassifier *type)
+{
+    // Get all association widgets
+    QList<AssociationWidget*> widgets;
+    for (UMLWidget *w : widgetList()) {
+        if (auto aw = qobject_cast<AssociationWidget*>(w))
+            widgets.append(aw);
+    }
+    for (const AssociationWidget *aw : widgets) {
+        const UMLWidget *wa = aw->widgetForRole(Uml::RoleType::A);
+        const UMLWidget *wb = aw->widgetForRole(Uml::RoleType::B);
+        if (wa->umlObject() == klass)
+            qDebug() << wa;
+        else if (wb->umlObject() == klass)
+            qDebug() << wb;
+    }
+}
+
 /**
  * Find the maximum bounding rectangle of FloatingTextWidget widgets.
  * Auxiliary to copyAsImage().

@@ -151,14 +151,17 @@ set(testumlroledialog_SRCS
     testumlroledialog.cpp
 )
 
-add_executable(testumlroledialog ${testumlroledialog_SRCS})
-target_link_libraries(testumlroledialog ${LIBS})
-
 add_executable(testcrashhandler testcrashhandler.cpp)
 target_link_libraries(testcrashhandler ${LIBS})
 
 add_executable(testlistpopupmenu testlistpopupmenu.cpp testbase.cpp)
 target_link_libraries(testlistpopupmenu ${LIBS})
+
+add_executable(testumlroledialog ${testumlroledialog_SRCS})
+target_link_libraries(testumlroledialog ${LIBS})
+
+add_executable(testscene testscene.cpp testbase.cpp)
+target_link_libraries(testscene ${LIBS})
 
 find_package(LLVM CONFIG)
 find_package(Clang CONFIG)

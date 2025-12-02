@@ -16,6 +16,7 @@
 #include "umltemplate.h"
 #include "umlapp.h"
 #include "umldoc.h"
+#include "umlview.h"
 
 #include <KComboBox>
 #include <KLocalizedString>
@@ -25,6 +26,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QWidget>
+#include <umlscene.h>
 
 DEBUG_REGISTER(UMLDatatypeWidget)
 
@@ -154,6 +156,11 @@ bool UMLDatatypeWidget::applyAttribute()
         if (obj == nullptr)
             return false;
         classifier = obj->asUMLClassifier();
+    }
+
+    if (m_attribute) {
+        UMLClassifier *oldType = m_datatype->getType();
+        UMLApp::app()->currentView()->umlScene()->updateAutoAttributeAssociation(m_parent, m_attribute, nullptr, oldType);
     }
     m_datatype->setType(classifier);
     return true;

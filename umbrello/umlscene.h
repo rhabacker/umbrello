@@ -260,6 +260,7 @@ public:
     void createAutoAttributeAssociations(UMLWidget *widget);
     void createAutoConstraintAssociations(UMLWidget* widget);
     void createAutoAttributeAssociations2(UMLWidget *widget);
+    void updateAutoAttributeAssociation(UMLClassifier *klass, UMLAttribute *attr, UMLWidget *widget, UMLClassifier *type);
 
     void updateContainment(UMLCanvasObject *self);
 
