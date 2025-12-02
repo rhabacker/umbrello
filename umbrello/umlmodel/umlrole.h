@@ -47,6 +47,9 @@ public:
 
     virtual bool showPropertiesDialog(QWidget *parent = nullptr);
 
+    bool ownership() const;
+    void setOwnership(bool newOwnership);
+
 protected:
 
     bool load1(QDomElement& element);
@@ -57,6 +60,7 @@ private:
     Uml::RoleType::Enum        m_role;
     QString                    m_Multi;
     Uml::Changeability::Enum   m_Changeability;
+    bool                       m_ownership;
 };
 
 #endif

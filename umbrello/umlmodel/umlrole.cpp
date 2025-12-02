@@ -32,7 +32,9 @@ UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, Uml::RoleType::
     m_pAssoc(parent),
     m_role(role),
     m_Multi(QString()),
-    m_Changeability(Uml::Changeability::Changeable)
+    m_Changeability(Uml::Changeability::Changeable),
+    m_ownership(false)
+
 {
     m_BaseType = UMLObject::ot_Role;
     m_name.clear();
@@ -419,5 +421,15 @@ bool UMLRole::load1(QDomElement & element)
     // finished config, now unblock
     blockSignals(false);
     return true;
+}
+
+bool UMLRole::ownership() const
+{
+    return m_ownership;
+}
+
+void UMLRole::setOwnership(bool newOwnership)
+{
+    m_ownership = newOwnership;
 }
 
