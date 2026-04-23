@@ -532,7 +532,6 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     UMLView *sourceView = doc->findView(Uml::ID::fromString(sourceDiagramID));
 
     bool fromSameDiagram = sourceView && sourceView->umlScene()->ID() == scene->ID();
-    bool fromAnotherInstance = !sourceView;
     bool fromDifferentDiagramType = dType != scene->type();
 
     // Load widgets
@@ -556,7 +555,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
             }
 
             // check if widget is pastable
-            if (fromAnotherInstance || fromDifferentDiagramType) {
+            if (fromDifferentDiagramType) {
                 UMLObject *object = widget->umlObject();
                 if (object) {
                     if (!Model_Utils::typeIsAllowedInDiagram(object, scene)) {
@@ -565,14 +564,13 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
                         widgetElement = widgetNode.toElement();
                         continue;
                     }
-                }
-                else if (!Model_Utils::typeIsAllowedInDiagram(widget, scene)) {
+                } else if (!Model_Utils::typeIsAllowedInDiagram(widget, scene)) {
                     delete widget;
                     widgetNode = widgetNode.nextSibling();
                     widgetElement = widgetNode.toElement();
                     continue;
                 }
-            } else if (Model_Utils::isCloneable(widget->baseType())) {
+            } else if (sourceView && Model_Utils::isCloneable(widget->baseType())) {
                 if (widget->umlObject()) {
                     UMLObject *clone = widget->umlObject()->clone();
                     widget->setUMLObject(clone);
@@ -744,6 +742,10 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
     while (!element.isNull()) {
         pObject = nullptr;
         QString type = element.tagName();
+        const QString xmiType = element.attribute(QStringLiteral("xmi:type"));
+        if (!xmiType.isEmpty()) {
+            type = xmiType;
+        }
         Uml::ID::Type elmId = Uml::ID::fromString(Model_Utils::getXmiId(element));
         QString stereotype = element.attribute(QStringLiteral("stereotype"));
 
@@ -778,6 +780,11 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
         pObject = Object_Factory::makeObjectFromXMI(type, stereotype);
         if(!pObject) {
             logWarn1("UMLDragData::decodeObjects given wrong type of umlobject to create: %1", type);
+            if (skipIfObjectExists) {
+                objectElement = objectElement.nextSibling();
+                element = objectElement.toElement();
+                continue;
+            }
             return false;
         }
 
@@ -812,6 +819,11 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
         if (!pObject->loadFromXMI(element)) {
             logWarn1("UMLDragData::decodeObjects failed to load object of type %1 from XMI", type);
             delete pObject;
+            if (skipIfObjectExists) {
+                objectElement = objectElement.nextSibling();
+                element = objectElement.toElement();
+                continue;
+            }
             return false;
         }
 
@@ -904,4 +916,3 @@ int UMLDragData::getCodingType(const QMimeData* mimeData)
     }
     return result;
 }
-
