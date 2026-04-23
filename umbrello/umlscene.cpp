@@ -2203,9 +2203,18 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
         return false;
     }
 
-    //make sure there isn't already the same assoc
-
+    // make sure there isn't already the same assoc
+    // For model-backed associations, compare full edge identity (model
+    // association + type + endpoints) but intentionally do not compare the
+    // display name, because it may be temporarily out of sync while loading.
     for(AssociationWidget *assocwidget : associationList()) {
+        if (pAssoc->association() != nullptr &&
+            pAssoc->association() == assocwidget->association() &&
+            pAssoc->associationType() == assocwidget->associationType() &&
+            pAssoc->widgetIDForRole(Uml::RoleType::A) == assocwidget->widgetIDForRole(Uml::RoleType::A) &&
+            pAssoc->widgetIDForRole(Uml::RoleType::B) == assocwidget->widgetIDForRole(Uml::RoleType::B)) {
+            return (isPasteOperation ? true : false);
+        }
         if (*pAssoc == *assocwidget)
             // this is nuts. Paste operation wants to know if 'true'
             // for duplicate, but loadFromXMI needs 'false' value
@@ -4693,5 +4702,3 @@ qreal UMLScene::fixY() const
 {
     return m_fixY;
 }
-
-

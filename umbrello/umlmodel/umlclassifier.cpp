@@ -1618,5 +1618,3 @@ UMLClassifierList UMLClassifier::findAssocClassifierObjsInRoles (UMLAssociationL
     return classifiers;
 }
 */
-
-
