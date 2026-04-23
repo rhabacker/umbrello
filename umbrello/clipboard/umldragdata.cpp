@@ -564,14 +564,13 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
                         widgetElement = widgetNode.toElement();
                         continue;
                     }
-                }
-                else if (!Model_Utils::typeIsAllowedInDiagram(widget, scene)) {
+                } else if (!Model_Utils::typeIsAllowedInDiagram(widget, scene)) {
                     delete widget;
                     widgetNode = widgetNode.nextSibling();
                     widgetElement = widgetNode.toElement();
                     continue;
                 }
-            } else if (Model_Utils::isCloneable(widget->baseType())) {
+            } else if (sourceView && Model_Utils::isCloneable(widget->baseType())) {
                 if (widget->umlObject()) {
                     UMLObject *clone = widget->umlObject()->clone();
                     widget->setUMLObject(clone);
@@ -767,16 +766,16 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
 
         // Remove ownedElements from containers: the clip already contains all children
         // as a flat list (UMLClipboard::insertItemChildren)
-        if (type == QStringLiteral("UML:Package") ||
-            type == QStringLiteral("UML:Class") ||
-            type == QStringLiteral("UML:Interface") ||
-            type == QStringLiteral("UML:Component")) {
+        if (UMLDoc::tagEq(type, QStringLiteral("Package")) ||
+            UMLDoc::tagEq(type, QStringLiteral("Class")) ||
+            UMLDoc::tagEq(type, QStringLiteral("Interface")) ||
+            UMLDoc::tagEq(type, QStringLiteral("Component"))) {
             QDomNodeList list = element.childNodes();
             for (int i = list.length() - 1; i >= 0; i--) {
                 QDomNode child = list.at(i);
                 QString tagName = child.toElement().tagName();
-                if (tagName == QStringLiteral("UML:Namespace.ownedElement") ||
-                    tagName == QStringLiteral("UML:Namespace.contents")) {
+                if (UMLDoc::tagEq(tagName, QStringLiteral("Namespace.ownedElement")) ||
+                    UMLDoc::tagEq(tagName, QStringLiteral("Namespace.contents"))) {
                     element.removeChild(child);
                 }
             }
@@ -921,4 +920,3 @@ int UMLDragData::getCodingType(const QMimeData* mimeData)
     }
     return result;
 }
-

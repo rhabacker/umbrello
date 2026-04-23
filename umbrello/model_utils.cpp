@@ -2390,4 +2390,3 @@ bool hasAssociations(UMLObject::ObjectType type)
     }
 }
 }  // namespace Model_Utils
-
