@@ -566,7 +566,14 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
                         continue;
                     }
                 }
-                else if (!Model_Utils::typeIsAllowedInDiagram(widget, scene)) {
+                else if (widget->isMessageWidget() || widget->isPreconditionWidget()) {
+                    if (fromDifferentDiagramType) {
+                        delete widget;
+                        widgetNode = widgetNode.nextSibling();
+                        widgetElement = widgetNode.toElement();
+                        continue;
+                    }
+                } else if (!Model_Utils::typeIsAllowedInDiagram(widget, scene)) {
                     delete widget;
                     widgetNode = widgetNode.nextSibling();
                     widgetElement = widgetNode.toElement();
@@ -904,4 +911,3 @@ int UMLDragData::getCodingType(const QMimeData* mimeData)
     }
     return result;
 }
-
