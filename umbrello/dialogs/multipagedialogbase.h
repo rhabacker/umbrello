@@ -8,7 +8,7 @@
 
 #include "icon_utils.h"
 
-#include <kpagewidget.h>
+#include <KPageWidget>
 
 // qt class includes
 #include <QDialog>
