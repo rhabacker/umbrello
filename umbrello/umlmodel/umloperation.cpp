@@ -211,7 +211,7 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig, bool withStereotype
     s += name();
     Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
     bool parameterlessOpNeedsParentheses =
-        (pl != Uml::ProgrammingLanguage::Pascal && pl != Uml::ProgrammingLanguage::Ada);
+        (pl != Uml::ProgrammingLanguage::Pascal && pl != Uml::ProgrammingLanguage::Ada && pl != Uml::ProgrammingLanguage::Ada95);
 
     if (sig == Uml::SignatureType::NoSig || sig == Uml::SignatureType::NoSigNoVis) {
         if (parameterlessOpNeedsParentheses)

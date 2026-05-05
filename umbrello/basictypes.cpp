@@ -911,6 +911,8 @@ QString toString(Enum item)
             return QStringLiteral("ActionScript");
         case Ada:
             return QStringLiteral("Ada");
+        case Ada95:
+            return QStringLiteral("Ada95");
         case Cpp:
             return QStringLiteral("C++");
         case CSharp:
@@ -962,6 +964,8 @@ Enum fromString(const QString& item)
         return ActionScript;
     if (item == QStringLiteral("Ada"))
         return Ada;
+    if (item == QStringLiteral("Ada95"))
+        return Ada95;
     if (item == QStringLiteral("C++") || item == QStringLiteral("Cpp"))  // "Cpp" only for bkwd compatibility
         return Cpp;
     if (item == QStringLiteral("C#"))
@@ -1024,6 +1028,7 @@ QStringList toExtensions(Enum item)
             result << QStringLiteral("*.as");
             break;
         case Ada:
+        case Ada95:
             result << QStringLiteral("*.ads")
                    << QStringLiteral("*.adb")
                    << QStringLiteral("*.ada");
@@ -1099,6 +1104,7 @@ QString toExtensionsDescription(Enum item)
 {
     QString result = QString::fromLatin1("Files");
     switch (item) {  //:TODO: More languages?
+        case Uml::ProgrammingLanguage::Ada95:
         case Uml::ProgrammingLanguage::Ada:
             result = QStringLiteral("Source files");
             break;
@@ -1139,6 +1145,7 @@ bool isCaseSensitive(Enum item)
 {
     return (item != Uml::ProgrammingLanguage::Pascal &&
             item != Uml::ProgrammingLanguage::Ada &&
+            item != Uml::ProgrammingLanguage::Ada95 &&
             item != Uml::ProgrammingLanguage::SQL &&
             item != Uml::ProgrammingLanguage::MySQL &&
             item != Uml::ProgrammingLanguage::PostgreSQL);
@@ -1147,6 +1154,7 @@ bool isCaseSensitive(Enum item)
 QString scopeSeparator(Enum item)
 {
     if (item == Uml::ProgrammingLanguage::Ada ||
+        item == Uml::ProgrammingLanguage::Ada95 ||
         item == Uml::ProgrammingLanguage::CSharp ||
         item == Uml::ProgrammingLanguage::Vala ||
         item == Uml::ProgrammingLanguage::Pascal ||

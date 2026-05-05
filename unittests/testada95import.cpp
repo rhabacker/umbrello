@@ -30,14 +30,14 @@ void TestAda95Import::cleanupTestCase()
 void TestAda95Import::test_import_file()
 {
     QStringList fileList;
-    fileList << QLatin1Literal(EXAMPLES_DIR "pkg1.ads");
-    fileList << QLatin1Literal(EXAMPLES_DIR "pkg1.adb");
+    fileList << QLatin1String(EXAMPLES_DIR "pkg1.ads");
+    fileList << QLatin1String(EXAMPLES_DIR "pkg1.adb");
     Ada95Import classImporter;
-    classImporter.setRootPath(QLatin1Literal(EXAMPLES_DIR));
+    classImporter.setRootPath(QLatin1String(EXAMPLES_DIR));
     classImporter.importFiles(fileList);
 
     UMLDoc *doc = UMLApp::app()->document();  // Use the singleton document
-    UMLObject *pkg = doc->findUMLObject("MyPkg", UMLObject::ot_Package, nullptr);
+    UMLObject *pkg = doc->findUMLObject(QLatin1String("MyPkg"), UMLObject::ot_Package, nullptr);
 }
 
 

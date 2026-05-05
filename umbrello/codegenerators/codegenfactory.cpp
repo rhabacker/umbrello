@@ -98,6 +98,7 @@ CodeGenerator* createObject(Uml::ProgrammingLanguage::Enum pl)
     Settings::OptionState optionState = Settings::optionState();
     switch (pl) {
         case Uml::ProgrammingLanguage::Ada:
+        case Uml::ProgrammingLanguage::Ada95:
             obj = new AdaWriter();
             break;
         case Uml::ProgrammingLanguage::ActionScript:

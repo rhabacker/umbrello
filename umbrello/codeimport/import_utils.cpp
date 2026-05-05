@@ -211,7 +211,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     } else if (name.startsWith(QStringLiteral("::"))) {
         name = name.mid(2);
         parentPkg = logicalView;
-    } else if (UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::Ada &&
+    } else if ((UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::Ada || UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::Ada95) &&
                name.startsWith(QStringLiteral("Standard."), Qt::CaseInsensitive)) {
         name = name.mid(9);
         parentPkg = logicalView;

@@ -391,6 +391,8 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
                     progLang = Uml::ProgrammingLanguage::Java;
                 else if (language == QStringLiteral("Ada"))
                     progLang = Uml::ProgrammingLanguage::Ada;
+                else if (language == QStringLiteral("Ada95"))
+                    progLang = Uml::ProgrammingLanguage::Ada95;
             }
             if (seenClosing) {
                 break;
