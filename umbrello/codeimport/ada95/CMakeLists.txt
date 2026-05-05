@@ -1,6 +1,4 @@
-find_package(antlr4-runtime 4.13 REQUIRED)
-
-message(STATUS "antlr4-runtime ${ANTLR4_RUNTIME_INCLUDE_DIR} ${ANTLR4_RUNTIME_LIBRARIES}")
+find_package(antlr4-runtime 4.13 CONFIG REQUIRED)
 
 set(ADA95_DATA_DIR ${CMAKE_SOURCE_DIR}/3rdparty/grammars-v4/ada)
 
@@ -25,15 +23,15 @@ set(ADA95_IMPORT_SOURCES
 )
 
 add_library(ada95import STATIC ${ADA95_IMPORT_SOURCES})
-target_compile_options(ada95import PRIVATE -fexceptions)
+target_compile_options(ada95import PRIVATE -fexceptions -DANTLR4_USE_THREAD_LOCAL_CACHE)
 target_include_directories(ada95import
     PRIVATE
         ${ADA95_PARSER_DIR}
-        ${ANTLR4_RUNTIME_INCLUDE_DIR}
+        ${ANTLR4_INCLUDE_DIR}
 )
 target_link_libraries(ada95import
     PRIVATE
-        ${ANTLR4_RUNTIME_LIBRARIES}
+        antlr4_shared
         Qt::Widgets
         Qt::Xml
 )
