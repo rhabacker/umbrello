@@ -82,11 +82,13 @@ protected:
     QString lookAhead();
     virtual QString advance();
 
+public:
     void pushScope(UMLPackage *p);
     UMLPackage *popScope();
     UMLPackage *currentScope();
     int scopeIndex();
 
+protected:
     QString                m_singleLineCommentIntro;  ///< start token of a single line comment
     QStringList            m_source;         ///< the scanned lexemes
     int                    m_srcIndex;       ///< used for indexing m_source
