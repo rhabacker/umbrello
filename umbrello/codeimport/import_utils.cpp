@@ -7,22 +7,22 @@
 #include "import_utils.h"
 
 // app includes
-#include "umlassociation.h"
-#include "umlartifact.h"
-#include "umlclassifier.h"
-#include "umldatatype.h"
+#include "object_factory.h"
 #define DBG_SRC QStringLiteral("Import_Utils")
 #include "debug_utils.h"
-#include "umlfolder.h"
+#include "umlapp.h"
+#include "umlartifact.h"
+#include "umlassociation.h"
+#include "umlclassifier.h"
+#include "umldatatype.h"
+#include "umldoc.h"
 #include "umlenum.h"
-#include "object_factory.h"
+#include "umlfolder.h"
+#include "umllistview.h"
+#include "umlobject.h"
 #include "umloperation.h"
 #include "umlpackage.h"
 #include "umltemplate.h"
-#include "umlapp.h"
-#include "umldoc.h"
-#include "umllistview.h"
-#include "umlobject.h"
 
 // kde includes
 #include <KLocalizedString>
@@ -844,6 +844,154 @@ UMLPackage *globalScope()
 {
     UMLFolder *logicalView = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
     return logicalView;
+}
+
+UMLAssociation* Import_Utils::createAssociation(
+    UMLClassifier* a,
+    UMLClassifier* b,
+    Uml::AssociationType type)
+{
+    if (!a || !b)
+        return nullptr;
+
+    UMLDoc* doc = UMLApp::app()->document();
+    if (!doc)
+        return nullptr;
+
+    return doc->createUMLAssociation(a, b, type);
+}
+
+void Import_Utils::createDependency(
+    UMLClassifier* client,
+    UMLClassifier* supplier)
+{
+    createAssociation(client, supplier, Uml::AssociationType::at_Dependency);
+}
+
+UMLClassifier* Import_Utils::resolveType(
+    const QString& rawName,
+    UMLPackage* scope)
+{
+    if (rawName.isEmpty())
+        return nullptr;
+
+    QString name = normalizeScopedName(rawName);
+
+    UMLDoc* doc = UMLApp::app()->document();
+    if (!doc)
+        return nullptr;
+
+    // Built-in / datatype handling
+    if (isDatatype(name, scope)) {
+        UMLObject* obj = createUMLObject(
+            UMLObject::ot_Datatype,
+            name,
+            scope
+        );
+        return dynamic_cast<UMLClassifier*>(obj);
+    }
+
+    // Try to find existing classifier
+    UMLClassifier* type = doc->findUMLClassifier(name);
+    if (type)
+        return type;
+
+    // Fallback: create class
+    UMLObject* obj = createUMLObjectHierarchy(
+        UMLObject::ot_Class,
+        name,
+        scope
+    );
+
+    return dynamic_cast<UMLClassifier*>(obj);
+}
+
+QString Import_Utils::normalizeScopedName(const QString& raw)
+{
+    QString s = raw;
+
+    // Remove whitespace/newlines
+    s = s.simplified();
+    s.replace(" ", "");
+
+    // Ada uses '.', Umbrello prefers '::'
+    s.replace(".", "::");
+
+    return s;
+}
+
+UMLPackage* Import_Utils::ensurePackageHierarchy(
+    const QString& qualifiedName,
+    UMLPackage* base)
+{
+    if (!base)
+        return nullptr;
+
+    QString norm = normalizeScopedName(qualifiedName);
+
+    QStringList parts = norm.split("::", Qt::SkipEmptyParts);
+
+    UMLPackage* current = base;
+
+    for (const QString& part : parts) {
+        UMLObject* obj = createUMLObject(
+            UMLObject::ot_Package,
+            part,
+            current,
+            QString(),
+            QString(),
+            true   // search only in current scope
+        );
+
+        current = dynamic_cast<UMLPackage*>(obj);
+        if (!current)
+            return nullptr;
+    }
+
+    return current;
+}
+
+UMLClassifier* Import_Utils::createInstantiation(
+    const QString& instanceName,
+    const QString& templateName,
+    UMLPackage* scope)
+{
+    if (instanceName.isEmpty() || templateName.isEmpty())
+        return nullptr;
+
+    QString instName = normalizeScopedName(instanceName);
+    QString tmplName = normalizeScopedName(templateName);
+
+    // Create instance class
+    UMLObject* obj = createUMLObjectHierarchy(
+        UMLObject::ot_Class,
+        instName,
+        scope
+    );
+
+    UMLClassifier* instance = dynamic_cast<UMLClassifier*>(obj);
+    if (!instance)
+        return nullptr;
+
+    // Resolve template
+    UMLClassifier* tmpl = resolveType(tmplName, scope);
+    if (!tmpl)
+        return instance;
+
+    // Create dependency
+    createDependency(instance, tmpl);
+
+    return instance;
+}
+
+void Import_Utils::applyStereotype(
+    UMLObject* obj,
+    const QString& stereotype)
+{
+    if (!obj || stereotype.isEmpty())
+        return;
+
+    obj->setStereotype(stereotype);
 }
 
 }  // end namespace Import_Utils

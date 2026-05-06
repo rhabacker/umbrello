@@ -102,6 +102,18 @@ namespace Import_Utils {
 
     UMLPackage *globalScope();
 
+    UMLAssociation* createAssociation(UMLClassifier* a, UMLClassifier* b, Uml::AssociationType type);
+    void createDependency(UMLClassifier* client, UMLClassifier* supplier);
+    UMLClassifier* resolveType(const QString& name, UMLPackage* scope);
+    QString normalizeScopedName(const QString& raw);
+    UMLPackage* ensurePackageHierarchy(const QString& qualifiedName, UMLPackage* base);
+    UMLClassifier* createInstantiation(
+        const QString& instanceName,
+        const QString& templateName,
+        UMLPackage* scope
+    );
+    void applyStereotype(UMLObject* obj, const QString& stereotype);
+
 } // end namespace Import_Utils
 
 #endif
