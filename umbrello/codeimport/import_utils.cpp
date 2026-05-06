@@ -846,10 +846,10 @@ UMLPackage *globalScope()
     return logicalView;
 }
 
-UMLAssociation* Import_Utils::createAssociation(
-    UMLClassifier* a,
-    UMLClassifier* b,
-    Uml::AssociationType type)
+UMLAssociation* createAssociation(
+            UMLClassifier* a,
+            UMLClassifier* b,
+            Uml::AssociationType::Enum type)
 {
     if (!a || !b)
         return nullptr;
@@ -861,14 +861,14 @@ UMLAssociation* Import_Utils::createAssociation(
     return doc->createUMLAssociation(a, b, type);
 }
 
-void Import_Utils::createDependency(
+void createDependency(
     UMLClassifier* client,
     UMLClassifier* supplier)
 {
-    createAssociation(client, supplier, Uml::AssociationType::at_Dependency);
+    createAssociation(client, supplier, Uml::AssociationType::Enum::Dependency);
 }
 
-UMLClassifier* Import_Utils::resolveType(
+UMLClassifier* resolveType(
     const QString& rawName,
     UMLPackage* scope)
 {
@@ -906,21 +906,21 @@ UMLClassifier* Import_Utils::resolveType(
     return dynamic_cast<UMLClassifier*>(obj);
 }
 
-QString Import_Utils::normalizeScopedName(const QString& raw)
+QString normalizeScopedName(const QString& raw)
 {
     QString s = raw;
 
     // Remove whitespace/newlines
     s = s.simplified();
-    s.replace(" ", "");
+    s.replace(QLatin1String(" "), QLatin1String(""));
 
     // Ada uses '.', Umbrello prefers '::'
-    s.replace(".", "::");
+    s.replace(QLatin1String("."), QLatin1String("::"));
 
     return s;
 }
 
-UMLPackage* Import_Utils::ensurePackageHierarchy(
+UMLPackage* ensurePackageHierarchy(
     const QString& qualifiedName,
     UMLPackage* base)
 {
@@ -929,7 +929,7 @@ UMLPackage* Import_Utils::ensurePackageHierarchy(
 
     QString norm = normalizeScopedName(qualifiedName);
 
-    QStringList parts = norm.split("::", Qt::SkipEmptyParts);
+    QStringList parts = norm.split(QLatin1String("::"), Qt::SkipEmptyParts);
 
     UMLPackage* current = base;
 
@@ -951,7 +951,7 @@ UMLPackage* Import_Utils::ensurePackageHierarchy(
     return current;
 }
 
-UMLClassifier* Import_Utils::createInstantiation(
+UMLClassifier* createInstantiation(
     const QString& instanceName,
     const QString& templateName,
     UMLPackage* scope)
@@ -984,7 +984,7 @@ UMLClassifier* Import_Utils::createInstantiation(
     return instance;
 }
 
-void Import_Utils::applyStereotype(
+void applyStereotype(
     UMLObject* obj,
     const QString& stereotype)
 {

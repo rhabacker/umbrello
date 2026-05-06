@@ -102,7 +102,7 @@ namespace Import_Utils {
 
     UMLPackage *globalScope();
 
-    UMLAssociation* createAssociation(UMLClassifier* a, UMLClassifier* b, Uml::AssociationType type);
+    UMLAssociation* createAssociation(UMLClassifier* a, UMLClassifier* b, Uml::AssociationType::Enum type);
     void createDependency(UMLClassifier* client, UMLClassifier* supplier);
     UMLClassifier* resolveType(const QString& name, UMLPackage* scope);
     QString normalizeScopedName(const QString& raw);
