@@ -1,5 +1,5 @@
 
-// Generated from ada95/Ada95Lexer.g4 by ANTLR 4.13.2
+// Generated from ada95/Ada95Lexer.g4 by ANTLR 4.13.0
 
 
 #include "Ada95Lexer.h"
@@ -45,7 +45,7 @@ struct Ada95LexerStaticData final {
 #if ANTLR4_USE_THREAD_LOCAL_CACHE
 static thread_local
 #endif
-std::unique_ptr<Ada95LexerStaticData> ada95lexerLexerStaticData = nullptr;
+Ada95LexerStaticData *ada95lexerLexerStaticData = nullptr;
 
 void ada95lexerLexerInitialize() {
 #if ANTLR4_USE_THREAD_LOCAL_CACHE
@@ -398,7 +398,7 @@ void ada95lexerLexerInitialize() {
   for (size_t i = 0; i < count; i++) { 
     staticData->decisionToDFA.emplace_back(staticData->atn->getDecisionState(i), i);
   }
-  ada95lexerLexerStaticData = std::move(staticData);
+  ada95lexerLexerStaticData = staticData.release();
 }
 
 }

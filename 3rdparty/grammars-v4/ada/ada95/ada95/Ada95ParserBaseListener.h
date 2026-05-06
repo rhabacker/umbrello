@@ -1,5 +1,5 @@
 
-// Generated from ada95/Ada95Parser.g4 by ANTLR 4.13.2
+// Generated from ada95/Ada95Parser.g4 by ANTLR 4.13.0
 
 #pragma once
 
@@ -369,6 +369,12 @@ public:
 
   virtual void enterGoto_statement(Ada95Parser::Goto_statementContext * /*ctx*/) override { }
   virtual void exitGoto_statement(Ada95Parser::Goto_statementContext * /*ctx*/) override { }
+
+  virtual void enterPragma_statement(Ada95Parser::Pragma_statementContext * /*ctx*/) override { }
+  virtual void exitPragma_statement(Ada95Parser::Pragma_statementContext * /*ctx*/) override { }
+
+  virtual void enterPragma_argument_association(Ada95Parser::Pragma_argument_associationContext * /*ctx*/) override { }
+  virtual void exitPragma_argument_association(Ada95Parser::Pragma_argument_associationContext * /*ctx*/) override { }
 
   virtual void enterSubprogram_declaration(Ada95Parser::Subprogram_declarationContext * /*ctx*/) override { }
   virtual void exitSubprogram_declaration(Ada95Parser::Subprogram_declarationContext * /*ctx*/) override { }

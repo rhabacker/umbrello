@@ -350,6 +350,7 @@ declarative_part
 declarative_item
     : basic_declarative_item
     | body
+    | pragma_statement
     ;
 
 basic_declarative_item
@@ -570,6 +571,7 @@ simple_statement
     | assignment_statement
     | exit_statement
     | goto_statement
+    | pragma_statement
     | procedure_call_statement
     | return_statement
     | entry_call_statement
@@ -647,6 +649,14 @@ exit_statement
 
 goto_statement
     : GOTO label_name = name ';'
+    ;
+
+pragma_statement
+    : PRAGMA identifier ('(' pragma_argument_association (',' pragma_argument_association)* ')')? ';'
+    ;
+
+pragma_argument_association
+    : (identifier '=>')? (name | expression)
     ;
 
 /*

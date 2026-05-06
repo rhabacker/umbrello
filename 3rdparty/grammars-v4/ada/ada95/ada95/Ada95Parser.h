@@ -1,5 +1,5 @@
 
-// Generated from ada95/Ada95Parser.g4 by ANTLR 4.13.2
+// Generated from ada95/Ada95Parser.g4 by ANTLR 4.13.0
 
 #pragma once
 
@@ -77,60 +77,60 @@ public:
     RuleCase_statement = 110, RuleCase_statement_alternative = 111, RuleLoop_statement = 112, 
     RuleIteration_scheme = 113, RuleLoop_parameter_specification = 114, 
     RuleBlock_statement = 115, RuleExit_statement = 116, RuleGoto_statement = 117, 
-    RuleSubprogram_declaration = 118, RuleAbstract_subprogram_declaration = 119, 
-    RuleSubprogram_specification = 120, RuleDesignator = 121, RuleDefining_designator = 122, 
-    RuleDefining_program_unit_name = 123, RuleOperator_symbol = 124, RuleDefining_operator_symbol = 125, 
-    RuleParameter_profile = 126, RuleParameter_and_result_profile = 127, 
-    RuleFormal_part = 128, RuleParameter_specification = 129, RuleMode_ = 130, 
-    RuleSubprogram_body = 131, RuleProcedure_call_statement = 132, RuleActual_parameter_part = 133, 
-    RuleParameter_association = 134, RuleExplicit_actual_parameter = 135, 
-    RuleReturn_statement = 136, RulePackage_declaration = 137, RulePackage_specification = 138, 
-    RulePackage_body = 139, RulePrivate_type_declaration = 140, RulePrivate_extension_declaration = 141, 
-    RuleUse_clause = 142, RuleUse_package_clause = 143, RuleUse_type_clause = 144, 
-    RuleRenaming_declaration = 145, RuleObject_renaming_declaration = 146, 
-    RuleException_renaming_declaration = 147, RulePackage_renaming_declaration = 148, 
-    RuleSubprogram_renaming_declaration = 149, RuleGeneric_renaming_declaration = 150, 
-    RuleTask_type_declaration = 151, RuleSingle_task_declaration = 152, 
-    RuleTask_definition = 153, RuleTask_item = 154, RuleTask_body = 155, 
-    RuleProtected_type_declaration = 156, RuleSingle_protected_declaration = 157, 
-    RuleProtected_definition = 158, RuleProtected_operation_declaration = 159, 
-    RuleProtected_element_declaration = 160, RuleProtected_body = 161, RuleProtected_operation_item = 162, 
-    RuleEntry_declaration = 163, RuleAccept_statement = 164, RuleEntry_index = 165, 
-    RuleEntry_body = 166, RuleEntry_body_formal_part = 167, RuleEntry_barrier = 168, 
-    RuleEntry_index_specification = 169, RuleEntry_call_statement = 170, 
-    RuleRequeue_statement = 171, RuleDelay_statement = 172, RuleDelay_until_statement = 173, 
-    RuleDelay_relative_statement = 174, RuleSelect_statement = 175, RuleSelective_accept = 176, 
-    RuleGuard = 177, RuleSelect_alternative = 178, RuleAccept_alternative = 179, 
-    RuleDelay_alternative = 180, RuleTerminate_alternative = 181, RuleTimed_entry_call = 182, 
-    RuleEntry_call_alternative = 183, RuleConditional_entry_call = 184, 
-    RuleAsynchronous_select = 185, RuleTriggering_alternative = 186, RuleTriggering_statement = 187, 
-    RuleAbortable_part = 188, RuleAbort_statement = 189, RuleCompilation = 190, 
-    RuleCompilation_unit = 191, RuleLibrary_item = 192, RuleLibrary_unit_declaration = 193, 
-    RuleLibrary_unit_renaming_declaration = 194, RuleLibrary_unit_body = 195, 
-    RuleParent_unit_name = 196, RuleContext_clause = 197, RuleContext_item = 198, 
-    RuleWith_clause = 199, RuleBody_stub = 200, RuleSubprogram_body_stub = 201, 
-    RulePackage_body_stub = 202, RuleTask_body_stub = 203, RuleProtected_body_stub = 204, 
-    RuleSubunit = 205, RuleException_declaration = 206, RuleHandled_sequence_of_statements = 207, 
-    RuleException_handler = 208, RuleChoice_parameter_specification = 209, 
-    RuleException_choice = 210, RuleRaise_statement = 211, RuleGeneric_declaration = 212, 
-    RuleGeneric_subprogram_declaration = 213, RuleGeneric_package_declaration = 214, 
-    RuleGeneric_formal_part = 215, RuleGeneric_formal_parameter_declaration = 216, 
-    RuleGeneric_instantiation = 217, RuleGeneric_actual_part = 218, RuleGeneric_association = 219, 
-    RuleExplicit_generic_actual_parameter = 220, RuleFormal_object_declaration = 221, 
-    RuleFormal_type_declaration = 222, RuleFormal_type_definition = 223, 
-    RuleFormal_private_type_definition = 224, RuleFormal_derived_type_definition = 225, 
-    RuleFormal_discrete_type_definition = 226, RuleFormal_signed_integer_type_definition = 227, 
-    RuleFormal_modular_type_definition = 228, RuleFormal_floating_point_definition = 229, 
-    RuleFormal_ordinary_fixed_point_definition = 230, RuleFormal_decimal_fixed_point_definition = 231, 
-    RuleFormal_array_type_definition = 232, RuleFormal_access_type_definition = 233, 
-    RuleFormal_subprogram_declaration = 234, RuleSubprogram_default = 235, 
-    RuleDefault_name = 236, RuleFormal_package_declaration = 237, RuleFormal_package_actual_part = 238, 
-    RuleAspect_clause = 239, RuleLocal_name = 240, RuleAttribute_definition_clause = 241, 
-    RuleEnumeration_representation_clause = 242, RuleEnumeration_aggregate = 243, 
-    RuleRecord_representation_clause = 244, RuleComponent_clause = 245, 
-    RulePosition = 246, RuleFirst_bit = 247, RuleLast_bit = 248, RuleCode_statement = 249, 
-    RuleRestriction = 250, RuleAt_clause = 251, RuleDelta_constraint = 252, 
-    RuleMod_clause = 253, RuleBoolean_expression = 254
+    RulePragma_statement = 118, RulePragma_argument_association = 119, RuleSubprogram_declaration = 120, 
+    RuleAbstract_subprogram_declaration = 121, RuleSubprogram_specification = 122, 
+    RuleDesignator = 123, RuleDefining_designator = 124, RuleDefining_program_unit_name = 125, 
+    RuleOperator_symbol = 126, RuleDefining_operator_symbol = 127, RuleParameter_profile = 128, 
+    RuleParameter_and_result_profile = 129, RuleFormal_part = 130, RuleParameter_specification = 131, 
+    RuleMode_ = 132, RuleSubprogram_body = 133, RuleProcedure_call_statement = 134, 
+    RuleActual_parameter_part = 135, RuleParameter_association = 136, RuleExplicit_actual_parameter = 137, 
+    RuleReturn_statement = 138, RulePackage_declaration = 139, RulePackage_specification = 140, 
+    RulePackage_body = 141, RulePrivate_type_declaration = 142, RulePrivate_extension_declaration = 143, 
+    RuleUse_clause = 144, RuleUse_package_clause = 145, RuleUse_type_clause = 146, 
+    RuleRenaming_declaration = 147, RuleObject_renaming_declaration = 148, 
+    RuleException_renaming_declaration = 149, RulePackage_renaming_declaration = 150, 
+    RuleSubprogram_renaming_declaration = 151, RuleGeneric_renaming_declaration = 152, 
+    RuleTask_type_declaration = 153, RuleSingle_task_declaration = 154, 
+    RuleTask_definition = 155, RuleTask_item = 156, RuleTask_body = 157, 
+    RuleProtected_type_declaration = 158, RuleSingle_protected_declaration = 159, 
+    RuleProtected_definition = 160, RuleProtected_operation_declaration = 161, 
+    RuleProtected_element_declaration = 162, RuleProtected_body = 163, RuleProtected_operation_item = 164, 
+    RuleEntry_declaration = 165, RuleAccept_statement = 166, RuleEntry_index = 167, 
+    RuleEntry_body = 168, RuleEntry_body_formal_part = 169, RuleEntry_barrier = 170, 
+    RuleEntry_index_specification = 171, RuleEntry_call_statement = 172, 
+    RuleRequeue_statement = 173, RuleDelay_statement = 174, RuleDelay_until_statement = 175, 
+    RuleDelay_relative_statement = 176, RuleSelect_statement = 177, RuleSelective_accept = 178, 
+    RuleGuard = 179, RuleSelect_alternative = 180, RuleAccept_alternative = 181, 
+    RuleDelay_alternative = 182, RuleTerminate_alternative = 183, RuleTimed_entry_call = 184, 
+    RuleEntry_call_alternative = 185, RuleConditional_entry_call = 186, 
+    RuleAsynchronous_select = 187, RuleTriggering_alternative = 188, RuleTriggering_statement = 189, 
+    RuleAbortable_part = 190, RuleAbort_statement = 191, RuleCompilation = 192, 
+    RuleCompilation_unit = 193, RuleLibrary_item = 194, RuleLibrary_unit_declaration = 195, 
+    RuleLibrary_unit_renaming_declaration = 196, RuleLibrary_unit_body = 197, 
+    RuleParent_unit_name = 198, RuleContext_clause = 199, RuleContext_item = 200, 
+    RuleWith_clause = 201, RuleBody_stub = 202, RuleSubprogram_body_stub = 203, 
+    RulePackage_body_stub = 204, RuleTask_body_stub = 205, RuleProtected_body_stub = 206, 
+    RuleSubunit = 207, RuleException_declaration = 208, RuleHandled_sequence_of_statements = 209, 
+    RuleException_handler = 210, RuleChoice_parameter_specification = 211, 
+    RuleException_choice = 212, RuleRaise_statement = 213, RuleGeneric_declaration = 214, 
+    RuleGeneric_subprogram_declaration = 215, RuleGeneric_package_declaration = 216, 
+    RuleGeneric_formal_part = 217, RuleGeneric_formal_parameter_declaration = 218, 
+    RuleGeneric_instantiation = 219, RuleGeneric_actual_part = 220, RuleGeneric_association = 221, 
+    RuleExplicit_generic_actual_parameter = 222, RuleFormal_object_declaration = 223, 
+    RuleFormal_type_declaration = 224, RuleFormal_type_definition = 225, 
+    RuleFormal_private_type_definition = 226, RuleFormal_derived_type_definition = 227, 
+    RuleFormal_discrete_type_definition = 228, RuleFormal_signed_integer_type_definition = 229, 
+    RuleFormal_modular_type_definition = 230, RuleFormal_floating_point_definition = 231, 
+    RuleFormal_ordinary_fixed_point_definition = 232, RuleFormal_decimal_fixed_point_definition = 233, 
+    RuleFormal_array_type_definition = 234, RuleFormal_access_type_definition = 235, 
+    RuleFormal_subprogram_declaration = 236, RuleSubprogram_default = 237, 
+    RuleDefault_name = 238, RuleFormal_package_declaration = 239, RuleFormal_package_actual_part = 240, 
+    RuleAspect_clause = 241, RuleLocal_name = 242, RuleAttribute_definition_clause = 243, 
+    RuleEnumeration_representation_clause = 244, RuleEnumeration_aggregate = 245, 
+    RuleRecord_representation_clause = 246, RuleComponent_clause = 247, 
+    RulePosition = 248, RuleFirst_bit = 249, RuleLast_bit = 250, RuleCode_statement = 251, 
+    RuleRestriction = 252, RuleAt_clause = 253, RuleDelta_constraint = 254, 
+    RuleMod_clause = 255, RuleBoolean_expression = 256
   };
 
   explicit Ada95Parser(antlr4::TokenStream *input);
@@ -268,6 +268,8 @@ public:
   class Block_statementContext;
   class Exit_statementContext;
   class Goto_statementContext;
+  class Pragma_statementContext;
+  class Pragma_argument_associationContext;
   class Subprogram_declarationContext;
   class Abstract_subprogram_declarationContext;
   class Subprogram_specificationContext;
@@ -2085,6 +2087,7 @@ public:
     Assignment_statementContext *assignment_statement();
     Exit_statementContext *exit_statement();
     Goto_statementContext *goto_statement();
+    Pragma_statementContext *pragma_statement();
     Procedure_call_statementContext *procedure_call_statement();
     Return_statementContext *return_statement();
     Entry_call_statementContext *entry_call_statement();
@@ -2364,6 +2367,43 @@ public:
   };
 
   Goto_statementContext* goto_statement();
+
+  class  Pragma_statementContext : public antlr4::ParserRuleContext {
+  public:
+    Pragma_statementContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *PRAGMA();
+    IdentifierContext *identifier();
+    antlr4::tree::TerminalNode *SEMI();
+    antlr4::tree::TerminalNode *LP();
+    std::vector<Pragma_argument_associationContext *> pragma_argument_association();
+    Pragma_argument_associationContext* pragma_argument_association(size_t i);
+    antlr4::tree::TerminalNode *RP();
+    std::vector<antlr4::tree::TerminalNode *> COMMA();
+    antlr4::tree::TerminalNode* COMMA(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+   
+  };
+
+  Pragma_statementContext* pragma_statement();
+
+  class  Pragma_argument_associationContext : public antlr4::ParserRuleContext {
+  public:
+    Pragma_argument_associationContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    NameContext *name();
+    ExpressionContext *expression();
+    IdentifierContext *identifier();
+    antlr4::tree::TerminalNode *ARROW();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+   
+  };
+
+  Pragma_argument_associationContext* pragma_argument_association();
 
   class  Subprogram_declarationContext : public antlr4::ParserRuleContext {
   public:
