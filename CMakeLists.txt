@@ -304,6 +304,13 @@ if(DOXYGEN_FOUND AND BUILD_APIDOC)
 endif()
 
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)
+    option(ENABLE_DOCBOOK_HTML "Docbook html export" OFF)
+    option(ENABLE_DOCBOOK_PDF "Docbook pdf export" OFF)
+    find_package(DocBookXSL)
+    find_program(XSLTPROC_EXECUTABLE xsltproc)
+    add_feature_info("Docbook html export" "ENABLE_DOCBOOK_HTML;DocBookXSL_FOUND;XSLTPROC_EXECUTABLE" "Add support to export the manual as html file")
+    option(ENABLE_DOCBOOK_HTML_INSTALL "Install manuals in HTML format" OFF)
+
     add_subdirectory(umbrello)
     if(BUILD_DOC)
         add_subdirectory(doc)
