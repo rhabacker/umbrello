@@ -2047,6 +2047,12 @@ void UMLWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             // origin
             painter->drawLine(-10, 0, 10, 0);
             painter->drawLine(0, -10, 0, 10);
+            // zvalue
+            QString zLevel = QString::number(zValue());
+            QFontMetricsF fm(painter->font(), painter->device());
+            QSizeF size = fm.boundingRect(zLevel).size() + QSizeF(1, 0);
+            QPointF pos = QPointF(-size.width() - 2, -size.height());
+            painter->drawText(QRectF(pos, size), zLevel);
         }
     }
 

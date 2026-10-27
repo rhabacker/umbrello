@@ -1128,6 +1128,12 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
             // origin
             painter->drawLine(-10, 0, 10, 0);
             painter->drawLine(0, -10, 0, 10);
+            // zValue
+            QString zLevel = QString::number(zValue());
+            QFontMetricsF fm(painter->font(), painter->device());
+            QSizeF size = fm.boundingRect(zLevel).size() + QSizeF(1, 0);
+            QPointF pos = boundingRect().center();
+            painter->drawText(QRectF(pos, size), zLevel);
         }
     }
 
