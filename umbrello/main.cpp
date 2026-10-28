@@ -15,12 +15,14 @@
 
 // kde includes
 #include <KAboutData>
-#include <QApplication>
-#include <QCommandLineParser>
 #include <KConfig>
-
 #include <KLocalizedString>
 #include <kcrash.h>
+
+// qt includes
+#include <QApplication>
+#include <QCommandLineParser>
+#include <QTimer>
 #include <QUrl>
 
 #include <stdio.h>
@@ -36,9 +38,12 @@ void getFiles(QStringList& files, const QString& path, QStringList& filters);
  * @param args The command line arguments given.
  * @return True if the GUI should be shown, false otherwise.
  */
+
 bool showGUI(const QCommandLineParser *args)
 {
-    if (args->values(QStringLiteral("export")).size() > 0 || args->isSet(QStringLiteral("export-formats"))) {
+    if (args->values(QStringLiteral("export")).size() > 0
+        || args->isSet(QStringLiteral("export-formats"))
+        || args->isSet(QStringLiteral("exit"))) {
         return false;
     }
     return true;
@@ -51,7 +56,7 @@ bool showGUI(const QCommandLineParser *args)
 static QUrl makeURL(const QString& input)
 {
     if (input.indexOf(QStringLiteral("://")) < 0)
-        return QUrl::fromLocalFile(input);
+        return QUrl::fromLocalFile(QFileInfo(input).absoluteFilePath());
     return QUrl(input);
 }
 
@@ -167,6 +172,10 @@ int main(int argc, char *argv[])
     parser.addOption(importDir);
     QCommandLineOption setProgLang(QStringLiteral("set-language"), i18n("set language"), QStringLiteral("proglang"));
     parser.addOption(setProgLang);
+    QCommandLineOption saveFileTo(QStringLiteral("save-file-to"), i18n("save the document to the specified file"), QStringLiteral("path"));
+    parser.addOption(saveFileTo);
+    QCommandLineOption exitAfterProcessing(QStringLiteral("exit"), i18n("exit after command-line operations"));
+    parser.addOption(exitAfterProcessing);
 
     parser.process(app);
     aboutData.processCommandLine(&parser);
@@ -242,6 +251,13 @@ int main(int argc, char *argv[])
             initDocument(args, lang);
         }
 
+        if (parsedArgs->isSet(QStringLiteral("save-file-to"))) {
+            QApplication::processEvents();
+            const QUrl url = makeURL(parsedArgs->value(QStringLiteral("save-file-to")));
+            if (!uml->document()->saveDocument(url))
+                return 1;
+        }
+
         // Handle diagram export related options
         if (parsedArgs->isSet(QStringLiteral("export"))) {
             QString extension;
@@ -255,6 +271,10 @@ int main(int argc, char *argv[])
             exportAllViews(extension, directory, useFolders);
         }
     }
+
+    if (parser.isSet(QStringLiteral("exit")))
+        QTimer::singleShot(0, &app, &QCoreApplication::quit);
+
     int result = app.exec();
     return result;
 }
